@@ -1,0 +1,3477 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Kompendio">
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%23faf6f0'/><text x='90' y='118' font-family='serif' font-size='100' font-weight='900' text-anchor='middle' fill='%23c8472a'>K</text></svg>">
+<title>Kompendio · Mikrolæring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800;9..144,900&family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf6f0;
+  --bg-warm: #f4ede0;
+  --ink: #1a1410;
+  --ink-soft: #5a4a3c;
+  --paper: #ffffff;
+  --line: #e4d9c4;
+  --line-strong: #c9b896;
+  --accent: #c8472a;
+  --accent-deep: #9a3520;
+  --gold: #d4a444;
+  --green: #4a7c4a;
+  --green-soft: #e8f0e3;
+  --red: #b54a3a;
+  --red-soft: #f5e3df;
+  --blue: #3a5a7a;
+  --shadow: 0 1px 0 rgba(0,0,0,0.04), 0 4px 12px rgba(60,40,20,0.06);
+  --shadow-lift: 0 4px 0 rgba(0,0,0,0.08), 0 10px 24px rgba(60,40,20,0.12);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  max-width: 460px;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  background:
+    radial-gradient(circle at 10% 5%, rgba(212,164,68,0.06), transparent 40%),
+    radial-gradient(circle at 90% 95%, rgba(200,71,42,0.05), transparent 40%),
+    var(--bg);
+  background-attachment: fixed;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Subtle paper grain */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0.04 0'/></filter><rect width='100' height='100' filter='url(%23n)'/></svg>");
+  z-index: 100;
+}
+
+/* ============= TOP BAR ============= */
+.topbar {
+  position: sticky; top: 0;
+  background: rgba(250,246,240,0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 20px;
+  padding-top: max(14px, env(safe-area-inset-top));
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 50;
+}
+.brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  display: flex; align-items: baseline; gap: 6px;
+}
+.brand .dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+}
+.stats {
+  display: flex; gap: 14px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+.stat {
+  display: flex; align-items: center; gap: 4px;
+  color: var(--ink-soft);
+}
+.stat svg { width: 16px; height: 16px; }
+.stat.streak { color: var(--accent); }
+.stat.xp { color: var(--gold); }
+
+/* ============= HOMEPAGE ============= */
+.page { padding: 20px 16px 100px; }
+.intro {
+  margin: 8px 4px 24px;
+}
+.intro h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0 0 8px;
+}
+.intro h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 600;
+}
+.intro p {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin: 0;
+}
+
+.path-section {
+  margin-bottom: 32px;
+}
+.path-header {
+  display: flex; align-items: center; gap: 12px;
+  margin: 24px 4px 16px;
+}
+.path-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--line-strong);
+  line-height: 1;
+}
+.path-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+.path-progress {
+  margin-left: auto;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: var(--bg-warm);
+  padding: 4px 8px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+}
+
+/* Lesson nodes - vertical staircase */
+.lessons {
+  position: relative;
+  padding: 8px 0;
+}
+.lesson-node {
+  display: flex; align-items: center;
+  margin-bottom: 14px;
+  position: relative;
+}
+.lesson-node:nth-child(odd) { padding-left: 24px; }
+.lesson-node:nth-child(even) { padding-left: 56px; }
+.lesson-node:nth-child(3n) { padding-left: 88px; }
+
+.lesson-circle {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 4px 0 var(--ink);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 22px;
+}
+.lesson-circle:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--ink);
+}
+.lesson-circle.done {
+  background: var(--green);
+  color: white;
+  border-color: #2a5a2a;
+  box-shadow: 0 4px 0 #2a5a2a;
+}
+.lesson-circle.current {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent-deep);
+  box-shadow: 0 4px 0 var(--accent-deep);
+  animation: pulse 2s ease-in-out infinite;
+}
+.lesson-circle.locked {
+  background: var(--bg-warm);
+  color: var(--line-strong);
+  border-color: var(--line-strong);
+  box-shadow: 0 4px 0 var(--line-strong);
+  cursor: not-allowed;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+.lesson-label {
+  margin-left: 14px;
+  flex: 1;
+}
+.lesson-label .name {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.25;
+}
+.lesson-label .meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============= LESSON SCREEN ============= */
+.lesson-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  max-width: 460px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.lesson-screen.active { display: flex; }
+
+.lesson-header {
+  padding: 14px 16px 12px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.close-btn:active { background: var(--bg-warm); }
+
+.progress-bar {
+  flex: 1;
+  height: 12px;
+  background: var(--bg-warm);
+  border-radius: 100px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green) 0%, #6a9d6a 100%);
+  border-radius: 100px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hearts {
+  display: flex; gap: 2px;
+  font-size: 18px;
+}
+.heart {
+  filter: grayscale(0%);
+  transition: all 0.3s;
+}
+.heart.lost {
+  filter: grayscale(100%);
+  opacity: 0.3;
+}
+
+.lesson-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.q-type-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.q-prompt {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin: 0 0 24px;
+}
+
+/* Multiple choice */
+.choices {
+  display: flex; flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.choice {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-bottom-width: 4px;
+  border-radius: 14px;
+  padding: 16px 18px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  font-family: inherit;
+  color: var(--ink);
+  transition: all 0.1s ease;
+  display: flex; align-items: center; gap: 12px;
+  line-height: 1.35;
+}
+.choice:active {
+  transform: translateY(1px);
+  border-bottom-width: 3px;
+}
+.choice.selected {
+  border-color: var(--blue);
+  background: #eef3f8;
+}
+.choice.correct {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+.choice.wrong {
+  border-color: var(--red);
+  background: var(--red-soft);
+}
+.choice-letter {
+  width: 26px; height: 26px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: var(--ink-soft);
+}
+.choice.selected .choice-letter { border-color: var(--blue); color: var(--blue); }
+.choice.correct .choice-letter { border-color: var(--green); color: var(--green); background: var(--green); color: white; }
+.choice.wrong .choice-letter { border-color: var(--red); color: var(--red); background: var(--red); color: white; }
+
+/* Cloze */
+.cloze-container {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 20px 18px;
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.cloze-blank {
+  display: inline-block;
+  min-width: 100px;
+  padding: 4px 10px;
+  margin: 0 2px;
+  background: var(--bg-warm);
+  border-bottom: 2px dashed var(--line-strong);
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  border-radius: 4px 4px 0 0;
+  vertical-align: baseline;
+}
+.cloze-blank.empty {
+  color: var(--line-strong);
+  font-style: italic;
+}
+.cloze-bank {
+  display: flex; flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+.cloze-pill {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-bottom-width: 3px;
+  padding: 8px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: transform 0.1s;
+}
+.cloze-pill:active { transform: translateY(1px); }
+.cloze-pill.used {
+  opacity: 0.3;
+  pointer-events: none;
+  background: var(--bg-warm);
+}
+
+/* Matching */
+.match-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.match-col h4 {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+  letter-spacing: 0.1em;
+}
+.match-item {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-bottom-width: 3px;
+  padding: 12px 10px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  transition: all 0.1s;
+  min-height: 50px;
+  display: flex; align-items: center;
+}
+.match-item:active { transform: translateY(1px); }
+.match-item.selected {
+  border-color: var(--blue);
+  background: #eef3f8;
+}
+.match-item.matched {
+  background: var(--green-soft);
+  border-color: var(--green);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.match-item.wrong-flash {
+  background: var(--red-soft);
+  border-color: var(--red);
+  animation: shake 0.3s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Feedback panel */
+.feedback {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%;
+  max-width: 460px;
+  padding: 20px 20px 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  background: var(--paper);
+  border-top: 2px solid var(--line);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 60;
+}
+.feedback.show { transform: translateX(-50%) translateY(0); }
+.feedback.correct {
+  background: var(--green-soft);
+  border-top-color: var(--green);
+}
+.feedback.wrong {
+  background: var(--red-soft);
+  border-top-color: var(--red);
+}
+.feedback-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+.feedback.correct .feedback-title { color: var(--green); }
+.feedback.wrong .feedback-title { color: var(--red); }
+.feedback-explain {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+.feedback-source {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+/* Buttons */
+.btn {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  letter-spacing: 0.01em;
+  transition: transform 0.1s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-bottom: 4px solid #000;
+}
+.btn-primary:disabled {
+  background: var(--line);
+  color: var(--line-strong);
+  border-bottom-color: var(--line-strong);
+  cursor: not-allowed;
+}
+.btn-correct {
+  background: var(--green);
+  color: white;
+  border-bottom: 4px solid #2a5a2a;
+}
+.btn-wrong {
+  background: var(--red);
+  color: white;
+  border-bottom: 4px solid #7a2a20;
+}
+.bottom-action {
+  padding: 16px 20px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+
+/* ============= INTRO CARD ============= */
+.intro-card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  padding: 24px 22px;
+  box-shadow: 0 6px 0 var(--ink);
+  margin-bottom: 16px;
+}
+.intro-card .badge {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: var(--accent);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.intro-card h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+.intro-card .body {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.intro-card .body strong {
+  background: linear-gradient(180deg, transparent 60%, rgba(212,164,68,0.4) 60%);
+  font-weight: 700;
+  padding: 0 2px;
+}
+.intro-card .analogy {
+  margin-top: 16px;
+  padding: 14px 14px;
+  background: var(--bg-warm);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.intro-card .analogy::before {
+  content: "Analogi → ";
+  font-family: 'Geist Mono', monospace;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ============= COMPLETE SCREEN ============= */
+.complete-screen {
+  text-align: center;
+  padding: 40px 20px;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  flex: 1;
+}
+.complete-emoji {
+  font-size: 80px;
+  margin-bottom: 16px;
+  animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.complete-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+.complete-sub {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+.complete-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.complete-stat {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-bottom-width: 4px;
+  border-radius: 14px;
+  padding: 14px 18px;
+  min-width: 90px;
+}
+.complete-stat .num {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--accent);
+}
+.complete-stat .label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* Summary card */
+.summary-points {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-top: 16px;
+  text-align: left;
+  width: 100%;
+}
+.summary-points h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+.summary-points ul {
+  margin: 0; padding-left: 20px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.summary-points li { margin-bottom: 4px; }
+
+/* ============= MODAL & TOAST ============= */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(20, 14, 10, 0.55);
+  z-index: 300;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 20px;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s;
+}
+.modal-backdrop.show { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  padding: 24px 22px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 8px 0 var(--ink);
+  animation: slideUp 0.25s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 22px;
+  margin: 0 0 8px;
+  letter-spacing: -0.015em;
+}
+.modal p {
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+.modal-actions {
+  display: flex; gap: 10px;
+}
+.modal-actions .btn { flex: 1; padding: 12px 16px; font-size: 15px; }
+.btn-secondary {
+  background: var(--bg-warm);
+  color: var(--ink);
+  border-bottom: 4px solid var(--line-strong);
+}
+.btn-danger {
+  background: var(--red);
+  color: white;
+  border-bottom: 4px solid #7a2a20;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 400;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: transform 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
+  max-width: 340px;
+  text-align: center;
+  font-family: 'Geist', sans-serif;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.warn { background: var(--accent); color: white; }
+.toast.info { background: var(--blue); color: white; }
+
+/* Storage status pill (visible if storage fails) */
+.storage-warn {
+  display: none;
+  background: var(--accent);
+  color: white;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  padding: 8px 14px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  margin: 8px 16px 0;
+  line-height: 1.4;
+}
+.storage-warn.show { display: block; }
+
+/* ============= MISC ============= */
+.section-intro {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent);
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.bottom-padding { height: 40px; }
+
+/* Reset progress button */
+.reset-btn {
+  position: fixed;
+  bottom: 16px; right: 50%;
+  margin-right: -218px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--line);
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  padding: 6px 10px;
+  border-radius: 100px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 40;
+}
+@media (max-width: 460px) {
+  .reset-btn { right: 16px; margin-right: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============= TOP BAR ============= -->
+<div class="topbar">
+  <div class="brand">Kompendio<span class="dot"></span></div>
+  <div class="stats">
+    <div class="stat streak">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 0c-.5 4-3 5-5.5 7.5C5.2 10.3 4 13 4 16c0 4.4 3.6 8 8 8s8-3.6 8-8c0-2.5-1-5-3-7-2.5 1-4 .5-3.5-9z"/></svg>
+      <span id="streakNum">0</span>
+    </div>
+    <div class="stat xp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>
+      <span id="xpNum">0</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============= HOMEPAGE ============= -->
+<div class="storage-warn" id="storageWarn">
+  ⚠ Kan ikke lagre fremgang i denne nettleseren. <span id="storageWarnDetail"></span>
+</div>
+<div class="page" id="homePage">
+  <div class="intro">
+    <h1>Kalkyler, styringssystemer<br><em>& finansiell analyse</em></h1>
+    <p>Lær kompendiet i biter. Fem minutter av gangen.</p>
+  </div>
+
+  <div id="pathContainer"></div>
+
+  <div class="bottom-padding"></div>
+</div>
+
+<!-- ============= LESSON SCREEN ============= -->
+<div class="lesson-screen" id="lessonScreen">
+  <div class="lesson-header">
+    <button class="close-btn" id="closeBtn">×</button>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="hearts" id="heartsDisplay"></div>
+  </div>
+  <div class="lesson-body" id="lessonBody"></div>
+  <div class="bottom-action" id="bottomAction" style="display:none">
+    <button class="btn btn-primary" id="checkBtn" disabled>Sjekk</button>
+  </div>
+  <div class="feedback" id="feedback">
+    <div class="feedback-source" id="feedbackSource"></div>
+    <h3 class="feedback-title" id="feedbackTitle"></h3>
+    <p class="feedback-explain" id="feedbackExplain"></p>
+    <button class="btn" id="continueBtn">Fortsett</button>
+  </div>
+</div>
+
+<button class="reset-btn" id="resetBtn">Nullstill</button>
+
+<!-- Modal & toast -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <p id="modalBody"></p>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// KOMPENDIO — INNHOLD
+// Alt innhold er hentet fra det opplastede kompendiet:
+// "Kalkyler, styringssystemer og finansiell analyse"
+// ============================================================
+
+const CURRICULUM = {
+  paths: [
+    {
+      id: 'p1', name: 'Del 1', title: 'Kalkyler & beslutninger',
+      intro: 'Hvordan vi måler kostnader, fordeler dem riktig, og bruker dem til å ta gode beslutninger om priser og produkter.',
+      lessons: [
+        // ===== DEL 1 =====
+        {
+          id: 'l1', order: 1, title: 'Kostnadsstruktur & teknologi',
+          source: 'Del 1, kap. 1',
+          intro: {
+            badge: 'Konsept',
+            heading: 'Når teknologi endrer kostnadsbildet',
+            body: 'Når en virksomhet går fra <strong>manuelle til digitale prosesser</strong>, blir typisk en større andel av kostnadene <strong>faste (FK)</strong>. Men ved å la andre eie plattformene og inngå <strong>variable avtaler</strong> (f.eks. betaling per bruk), kan virksomheten gjøre flere kostnader <strong>variable (VK)</strong>.',
+            analogy: 'Tenk å eie eget bilverksted (faste kostnader uansett om biler kommer inn) vs. å betale per reparasjon hos noen andre (variabelt med volum).'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva skjer typisk med kostnadsstrukturen når en virksomhet digitaliserer egne prosesser?',
+              choices: [
+                'Større andel blir faste kostnader',
+                'Større andel blir variable kostnader',
+                'Totalkostnaden forsvinner',
+                'Det blir ingen endring'
+              ],
+              correct: 0,
+              explain: 'Digitalisering med egne plattformer gir ofte høye investeringer som blir faste kostnader, uavhengig av volum.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvordan kan virksomheten gjøre flere kostnader variable etter digitalisering?',
+              choices: [
+                'Ansette flere fast',
+                'Bruke eksterne plattformer med pay-per-use-avtaler',
+                'Slutte å bruke teknologi',
+                'Øke faste lønnskostnader'
+              ],
+              correct: 1,
+              explain: 'Eksterne plattformer med variable avtaler (per bruker, per transaksjon) gjør at kostnaden følger volumet.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Fyll inn de riktige begrepene:',
+              text: 'Digitalisering med egne plattformer → mer ___A___. Eksterne plattformer + variable avtaler → mer ___B___.',
+              blanks: [
+                { id: 'A', answer: 'FK' },
+                { id: 'B', answer: 'VK' }
+              ],
+              bank: ['FK', 'VK', 'TK', 'DB'],
+              explain: 'FK = faste kostnader (uavhengig av volum). VK = variable kostnader (følger volum).'
+            }
+          ]
+        },
+        {
+          id: 'l2', order: 2, title: 'Kartlegging av kostnadsstruktur',
+          source: 'Del 1, kap. 2',
+          intro: {
+            badge: 'Metode',
+            heading: 'Fire måter å estimere kostnader på',
+            body: 'For å kartlegge kostnadsstrukturen finnes <strong>fire metoder</strong>: <strong>Ingeniørmetoden</strong> (fysiske observasjoner), <strong>Konferansemetoden</strong> (intervju med ansatte), <strong>Kontoplanmetoden</strong> (gjennomgang av regnskapets kontoklasser) og <strong>Kvantitative teknikker</strong> (høy-lav eller regresjon). ABC-kalkyler bygger ofte på de tre første.',
+            analogy: 'Det er som å finne ut hvor mye tid du bruker på ulike fag: du kan loggføre alt (ingeniør), spørre deg selv (konferanse), se på timeplan (kontoplan), eller lage statistikk fra eksamensresultater (kvantitativ).'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match metoden med den korrekte beskrivelsen:',
+              left: [
+                { id: 'i', text: 'Ingeniørmetoden' },
+                { id: 'ko', text: 'Konferansemetoden' },
+                { id: 'kp', text: 'Kontoplanmetoden' },
+                { id: 'kv', text: 'Kvantitative teknikker' }
+              ],
+              right: [
+                { id: 'i', text: 'Fysiske observasjoner av input/output' },
+                { id: 'ko', text: 'Intervju med ansatte som kjenner driften' },
+                { id: 'kp', text: 'Gjennomgang av regnskapets kontoklasser' },
+                { id: 'kv', text: 'Høy-lav-metoden eller regresjonsanalyse' }
+              ],
+              explain: 'Hver metode har ulik balanse mellom presisjon, tid og datakrav.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er en typisk fordel ved ingeniørmetoden?',
+              choices: [
+                'Den er rask og krever lite arbeid',
+                'Den gir faktiske, observerte sammenhenger mellom kostnad og aktivitet',
+                'Den krever ingen data',
+                'Den gir alltid riktig svar'
+              ],
+              correct: 1,
+              explain: 'Ingeniørmetoden gir grundige analyser basert på faktiske observasjoner — men er krevende, og ikke alt kan observeres.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er hovedrisikoen ved konferansemetoden?',
+              choices: [
+                'Den koster for mye',
+                'Den krever mye historisk regnskapsdata',
+                'Avhenger av at deltakerne er ærlige og ikke har egne interesser',
+                'Den kan ikke brukes på små bedrifter'
+              ],
+              correct: 2,
+              explain: 'Når man baserer seg på ansattes vurderinger, kan svarene farges av egne interesser eller dårlig hukommelse.'
+            }
+          ]
+        },
+        {
+          id: 'l3', order: 3, title: 'Høy-lav & regresjon',
+          source: 'Del 1, kap. 2.4',
+          intro: {
+            badge: 'Beregning',
+            heading: 'Kvantitative teknikker',
+            body: '<strong>Høy-lav-metoden</strong> bruker bare to observasjoner (høyeste og laveste) for å estimere en lineær kostnadsfunksjon: <em>y = fast ledd + stigningstall × X</em>. <strong>Regresjon</strong> bruker hele datasettet for å estimere linjen — mer presist, men kan skjule variasjon i enkeltobservasjoner.',
+            analogy: 'Høy-lav er som å trekke en strek mellom årets høyeste og laveste karakter for å gjette snittet. Regresjon bruker alle karakterene.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Du har: Enheter høy/lav = 100/40, Kostnad høy/lav = 3000/1500. Hva er stigningstallet (variabel kostnad per enhet)?',
+              choices: ['15', '20', '25', '30'],
+              correct: 2,
+              explain: 'Stigningstall = (3000 − 1500) / (100 − 40) = 1500 / 60 = 25.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er en hovedulempe ved høy-lav-metoden?',
+              choices: [
+                'Den krever for mye data',
+                'Ytterpunktene er ikke nødvendigvis representative',
+                'Den kan ikke brukes på lineære funksjoner',
+                'Den krever statistikkprogram'
+              ],
+              correct: 1,
+              explain: 'Høyeste og laveste verdi kan være avvik som ikke gjenspeiler den typiske sammenhengen.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Fyll inn:',
+              text: 'En tommelfingerregel sier at justert R² bør være over ___A___ for at en regresjon skal anses som tilstrekkelig. Vi forkaster H₀ hvis |t| > ___B___.',
+              blanks: [
+                { id: 'A', answer: '0,3' },
+                { id: 'B', answer: '1,96' }
+              ],
+              bank: ['0,3', '1,96', '0,05', '0,8'],
+              explain: 'R² > 0,3 og |t| > 1,96 (eller p < 0,05) er standard tommelfingerregler for vurdering av regresjon.'
+            }
+          ]
+        },
+        {
+          id: 'l4', order: 5, title: 'Direkte vs. indirekte kostnader',
+          source: 'Del 1, kap. 4.2',
+          intro: {
+            badge: 'Grunnbegrep',
+            heading: 'To måter å knytte kostnad til et objekt',
+            body: '<strong>Direkte kostnader</strong> kan spores direkte til kostnadsobjektet (f.eks. via faktura). <strong>Indirekte kostnader</strong> må fordeles på objektene fordi de ikke kan spores direkte. Skillet er fundamentet for all kostnadsfordeling.',
+            analogy: 'Direkte: pizzaen du bestilte og faktisk spiste. Indirekte: din andel av husleia for kollektivet — du må bare velge en rettferdig fordeling.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva kjennetegner direkte kostnader?',
+              choices: [
+                'De er alltid faste',
+                'De kan spores til kostnadsobjektet via et registreringssystem',
+                'De er alltid lave',
+                'De fordeles på alle produkter'
+              ],
+              correct: 1,
+              explain: 'Direkte = sporbart. Det viktige er at de kan knyttes konkret til ett bestemt kostnadsobjekt.'
+            },
+            {
+              type: 'mc',
+              prompt: 'En bedrift har leie for hele bygget (en pris). Hvis vi ønsker kostnaden per produkt, hva slags kostnad er leia?',
+              choices: [
+                'Direkte kostnad',
+                'Indirekte kostnad som må fordeles',
+                'Variable kostnad',
+                'Negativ kostnad'
+              ],
+              correct: 1,
+              explain: 'Husleia kan ikke spores til ett bestemt produkt og må fordeles via en fordelingsnøkkel — altså indirekte.'
+            }
+          ]
+        },
+        {
+          id: 'l5', order: 7, title: 'Fordelingsmetoder for støtteavdelinger',
+          source: 'Del 1, kap. 4.3.4',
+          intro: {
+            badge: 'Tre metoder',
+            heading: 'Direkte, stegvis & kryss',
+            body: 'Tre metoder for å fordele støtteavdelingers kostnader til hovedavdelinger: <strong>Direkte metode</strong> ignorerer all intern bruk mellom støtteavdelinger. <strong>Stegvis metode</strong> fordeler én støtteavdeling først (vanligvis den største), men uten tilbakeføring. <strong>Kryssmetoden (resiprok)</strong> tar full hensyn til gjensidig intern bruk.',
+            analogy: 'Tre venner deler en regning: Direkte = ignorer hva de skylder hverandre. Stegvis = en betaler for de andre først. Kryss = løs alt med ligninger samtidig.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hvilken metode er mest korrekt, men også mest komplisert?',
+              choices: [
+                'Direkte metode',
+                'Stegvis metode',
+                'Kryssmetoden (resiprok)',
+                'Ingen av dem'
+              ],
+              correct: 2,
+              explain: 'Kryssmetoden tar hensyn til all intern bruk via ligningssystem — mest korrekt, men krever mer data.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Når har kryssmetoden liten praktisk betydning?',
+              choices: [
+                'Når støtteavdelingene er store',
+                'Når internleveransene er små eller ganske like',
+                'Når selskapet har internasjonal drift',
+                'Når man bruker ABC-kalkyle'
+              ],
+              correct: 1,
+              explain: 'Hvis avdelingene knapt bruker hverandre, vil de tre metodene gi nesten samme svar.'
+            },
+            {
+              type: 'match',
+              prompt: 'Match metoden med dens nøkkelegenskap:',
+              left: [
+                { id: 'd', text: 'Direkte metode' },
+                { id: 's', text: 'Stegvis metode' },
+                { id: 'k', text: 'Kryssmetoden' }
+              ],
+              right: [
+                { id: 'd', text: 'Ignorerer all intern bruk mellom støtteavdelinger' },
+                { id: 's', text: 'Fordeler én støtteavdeling først, ingen tilbakeføring' },
+                { id: 'k', text: 'Tar full hensyn til gjensidig bruk via ligninger' }
+              ],
+              explain: 'Velg metode etter hvor mye de interne leveransene faktisk betyr.'
+            }
+          ]
+        },
+        {
+          id: 'l6', order: 8, title: 'Felleskostnader & inntekter',
+          source: 'Del 1, kap. 4.4 & 5',
+          intro: {
+            badge: 'Fordeling',
+            heading: 'Når flere deler kostnaden eller inntekten',
+            body: 'Tre vanlige metoder: <strong>Særkostnadsmetoden (incremental)</strong> — én part dekker sine særkostnader, resten går til de andre. <strong>Shapley</strong> — gjennomsnittet av alternativene gir en rettferdig fordeling. <strong>Autonomkostnader (stand-alone)</strong> — fordel etter hva hver part ville betalt alene.',
+            analogy: 'Dere skal dele en delt taxi. Stand-alone: hvem bor lengst? Shapley: snitt av begge måter å gå frem på. Særkostnad: én betaler "sin" del fullt, resten til de andre.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'StartUp1 alene koster 2400, StartUp2 alene 1600. Sammen: 3000. Med Shapley, hvor mye betaler StartUp1?',
+              choices: ['1100', '1900', '1800', '1500'],
+              correct: 1,
+              explain: 'Alt 1: StartUp1 først → 2400. Alt 2: StartUp2 først → 3000−1600=1400 til StartUp1. Snitt: (2400+1400)/2 = 1900.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er intuisjonen bak autonomkostnader (stand-alone)?',
+              choices: [
+                'Alle betaler likt',
+                'De som ville hatt høyest kostnad alene betaler mest',
+                'Den som kom først betaler mest',
+                'Tilfeldig fordeling'
+              ],
+              correct: 1,
+              explain: 'Vi fordeler etter relativ størrelse på det hver part ville måttet betale alene.'
+            }
+          ]
+        },
+        {
+          id: 'l7', order: 10, title: 'Beslutningsrelevante kostnader',
+          source: 'Del 1, kap. 6',
+          intro: {
+            badge: 'Beslutninger',
+            heading: 'Hva betyr egentlig for beslutningen?',
+            body: 'Bare <strong>fremtidige, påvirkbare kostnader</strong> er relevante. Vi ignorerer <strong>avskrivninger</strong> (historisk) og <strong>sunk costs</strong> (allerede påløpt). To metoder: <strong>Differansekostnadsmetoden</strong> (sammenligner totalkostnader) og <strong>Relevante kostnadsmetoden</strong> (særkostnader + alternativkostnader).',
+            analogy: 'Du har allerede betalt 800 kr for konsertbillett. Den koster ingenting nytt å gå. Spørsmålet er: foretrekker du konserten foran alternativet — ikke om billetten "var verdt det".'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hvilken kostnad er IKKE relevant for en beslutning?',
+              choices: [
+                'Fremtidige driftskostnader',
+                'Sunk costs (allerede påløpte kostnader)',
+                'Alternativkostnaden ved å bruke kapasiteten',
+                'Påvirkbare særkostnader'
+              ],
+              correct: 1,
+              explain: 'Sunk costs er allerede betalt og kan ikke endres — derfor irrelevante for fremtidige beslutninger.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er en alternativkostnad?',
+              choices: [
+                'Den billigste kostnaden i regnskapet',
+                'Verdien av det beste forkastede alternativet',
+                'En kostnad som kun gjelder alternative produkter',
+                'Den dyreste tenkelige kostnaden'
+              ],
+              correct: 1,
+              explain: 'Alternativkostnad = hva man går glipp av ved å velge dette alternativet i stedet for nest beste.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Beslutningsregel:',
+              text: 'Et tiltak er lønnsomt når ___A___ > beslutningsrelevante ___B___.',
+              blanks: [
+                { id: 'A', answer: 'særinntekter' },
+                { id: 'B', answer: 'kostnader' }
+              ],
+              bank: ['særinntekter', 'kostnader', 'avskrivninger', 'sunk costs'],
+              explain: 'Den enkle regelen: ekstra inntekt fra tiltaket må overstige de ekstra kostnadene tiltaket forårsaker.'
+            }
+          ]
+        },
+        {
+          id: 'l8', order: 11, title: 'Prissetting & 3 K\'er',
+          source: 'Del 1, kap. 7',
+          intro: {
+            badge: 'Strategi',
+            heading: 'Tre tilnærminger til pris',
+            body: 'Tre hovedstrategier for prissetting kalles <strong>3 K-er</strong>: <strong>Kostnader</strong> (kostnad + fortjeneste), <strong>Konkurrenter</strong> (markedspris ± kvalitetsjustering), <strong>Kunder</strong> (betalingsvillighet). I praksis brukes ofte en kombinasjon. <strong>Target Costing</strong> snur logikken: start med markedspris og ønsket fortjeneste, og styr kostnaden ned til "tillatt kostnad".',
+            analogy: 'Du selger lemonade på torvet. Kostnadsbasert: det koster 10 kr å lage, jeg vil ha 5 kr. Konkurrent: naboen tar 20, jeg tar 18. Kunde: turister vil betale 30. Smart: kombinér.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva er kjernen i Target Costing?',
+              choices: [
+                'Sett pris høyt for å maksimere fortjeneste',
+                'Start med markedspris og ønsket fortjeneste, så styr kostnaden ned',
+                'Kopier konkurrentens pris',
+                'Aldri gi rabatt'
+              ],
+              correct: 1,
+              explain: 'Target costing snur kalkylen: pris er gitt av markedet, fortjeneste av eier, og dermed har vi en maks tillatt kostnad å treffe.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva står "3 K-ene" for i prissetting?',
+              choices: [
+                'Kunder, Klima, Kostnader',
+                'Kostnader, Konkurrenter, Kunder',
+                'Kvalitet, Kvantitet, Kontekst',
+                'Konsept, Kapital, Kontroll'
+              ],
+              correct: 1,
+              explain: 'Kostnader (hva det koster), Konkurrenter (markedspris), Kunder (betalingsvillighet).'
+            }
+          ]
+        },
+        {
+          id: 'l9', order: 13, title: 'ABC-kalkulasjon: Grunnleggende',
+          source: 'Del 1, kap. 9',
+          intro: {
+            badge: 'Avansert kalkyle',
+            heading: 'Activity-Based Costing',
+            body: '<strong>ABC</strong> knytter kostnader til <strong>aktiviteter</strong> og fordeler dem med <strong>kostnadsdrivere</strong> — faktorer som forklarer kostnadsvariasjon på lang sikt. Skillet FK/VK forsvinner. I stedet brukes et <strong>kostnadshierarki</strong>: enhetsnivå → serienivå → produktnivå → bedriftsnivå. Bare de tre første fordeles til produktene.',
+            analogy: 'Tradisjonell selvkost: alle får like stor del av husleia uavhengig av hvor mye de bruker huset. ABC: vi måler faktisk bruk og fordeler etter det.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'På hvilket nivå i kostnadshierarkiet havner vedlikehold av bygninger og generell ledelse?',
+              choices: [
+                'Enhetsnivå',
+                'Serienivå',
+                'Produktnivå',
+                'Bedriftsnivå'
+              ],
+              correct: 3,
+              explain: 'Bedriftsnivå er kostnader uavhengige av produkt — og de skal IKKE fordeles til produktene i ABC.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Omstillinger ved oppstart av en ny serie hører hjemme på...',
+              choices: [
+                'Enhetsnivå (hver enhet)',
+                'Serienivå (per serie)',
+                'Produktnivå (eksistens av produkt)',
+                'Bedriftsnivå'
+              ],
+              correct: 1,
+              explain: 'Omstillinger drives av antall serier, ikke antall enheter. Derfor serienivå.'
+            },
+            {
+              type: 'match',
+              prompt: 'Match aktiviteten med riktig nivå:',
+              left: [
+                { id: 'm', text: 'Material og energi' },
+                { id: 'o', text: 'Omstillinger ved serieoppstart' },
+                { id: 'p', text: 'Produktutvikling' },
+                { id: 'l', text: 'Toppledelse og admin' }
+              ],
+              right: [
+                { id: 'm', text: 'Enhetsnivå' },
+                { id: 'o', text: 'Serienivå' },
+                { id: 'p', text: 'Produktnivå' },
+                { id: 'l', text: 'Bedriftsnivå' }
+              ],
+              explain: 'Variabilitet avtar oppover i hierarkiet. Bedriftsnivå er fast og fordeles ikke.'
+            }
+          ]
+        },
+        {
+          id: 'l10', order: 14, title: 'Ubenyttet kapasitet & dødens spiral',
+          source: 'Del 1, kap. 9.1',
+          intro: {
+            badge: 'Prinsipp',
+            heading: '"Ikke straff det du gjør for det du ikke gjør"',
+            body: 'Aktivitetens kostnader består av kostnad for <strong>benyttet</strong> og <strong>ubenyttet kapasitet</strong>. ABC-prinsipp: ubenyttet kapasitet skal IKKE fordeles til produktene. Som nevnervolum brukes <strong>praktisk kapasitet</strong>, ikke faktisk volum. Hvis vi fordeler all kapasitetskost på færre enheter, blir enhetskosten høyere → vi velger å produsere enda færre → kosten blir høyere → "dødens spiral".',
+            analogy: 'Et hotell med 100 rom som leier ut 30. Skal hver gjest betale 1/30 av husleia eller 1/100? Svar: 1/100 (praktisk kapasitet) — ellers blir prisen så høy at færre kommer, og spiralen er i gang.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva er hovedhensikten med å ikke fordele ubenyttet kapasitet til produkter?',
+              choices: [
+                'Å gjøre regnskapet enklere',
+                'Å unngå dødens spiral (kunstig høy enhetskost → enda lavere volum)',
+                'Å skjule ineffektivitet',
+                'Å redusere skatten'
+              ],
+              correct: 1,
+              explain: 'Hvis ledig kapasitet veltes over på enhetene, blir prisene høye, etterspørselen lavere, og volumet faller ytterligere — en negativ spiral.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilket nevnervolum bør brukes i ABC for å fordele kapasitetskostnader?',
+              choices: [
+                'Faktisk volum',
+                'Budsjettert volum',
+                'Praktisk kapasitet',
+                'Maksimal teoretisk kapasitet'
+              ],
+              correct: 2,
+              explain: 'Praktisk kapasitet = realistisk maks med vedlikehold, opplæring og normale stopp inkludert.'
+            }
+          ]
+        },
+        {
+          id: 'l11', order: 15, title: 'Theory of Constraints (TOC)',
+          source: 'Del 1, kap. 10',
+          intro: {
+            badge: 'Kortsiktig styring',
+            heading: 'Maksimer flyt gjennom flaskehalsen',
+            body: 'TOC er en <strong>kortsiktig</strong> metode for å maksimere <strong>gjennomstrømning</strong>. <strong>Gjennomstrømningsbidrag = Omsetning − Direkte materialer</strong>. Alle andre kostnader anses faste på kort sikt. Fire steg: 1) Identifiser flaskehalsen, 2) Regn DB1 per knapp faktor (DB1/timer), 3) Utnytt og frigjør kapasitet, 4) Øk kapasiteten i flaskehalsen.',
+            analogy: 'Tenk en kø ved kassen i butikken. Det hjelper ikke å fylle hyllene raskere når flaskehalsen er kassen. Først må du øke kapasitet der.'
+          },
+          questions: [
+            {
+              type: 'cloze',
+              prompt: 'TOC-formel:',
+              text: 'Gjennomstrømningsbidrag = ___A___ − Direkte ___B___',
+              blanks: [
+                { id: 'A', answer: 'omsetning' },
+                { id: 'B', answer: 'materialer' }
+              ],
+              bank: ['omsetning', 'materialer', 'lønn', 'kapital'],
+              explain: 'I TOC behandles alle andre kostnader enn direkte materialer som faste på kort sikt.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er DB1 per knapp faktor?',
+              choices: [
+                'DB1 multiplisert med antall timer',
+                'DB1 dividert med antall timer flaskehalsen bruker',
+                'Total omsetning per produkt',
+                'Variable kostnader per time'
+              ],
+              correct: 1,
+              explain: 'DB1 per time viser hvor mye ekstra dekningsbidrag vi får ved å frigjøre én time i flaskehalsen.'
+            },
+            {
+              type: 'mc',
+              prompt: 'I TOC, hvilken kostnad behandles som variabel på kort sikt?',
+              choices: [
+                'Lønn',
+                'Husleie',
+                'Direkte materialer',
+                'Avskrivninger'
+              ],
+              correct: 2,
+              explain: 'Bare direkte materialer — alt annet låses som faste kostnader på kort sikt.'
+            }
+          ]
+        },
+        {
+          id: 'l29', order: 4, title: 'Vurdering av regresjon',
+          source: 'Del 1, kap. 3.1–3.6',
+          intro: {
+            badge: 'Statistikk',
+            heading: 'Når kan vi stole på regresjonen?',
+            body: 'Fire kriterier: 1) <strong>Økonomisk rimelighet</strong> (er det en plausibel årsakssammenheng?), 2) <strong>Total forklaringsgrad</strong> (justert R² > 0,3), 3) <strong>Signifikans per variabel</strong> (|t| > 1,96), 4) <strong>Forutsetninger holder</strong>. Pass på <strong>negative FK</strong> (kan skje matematisk, men er økonomisk meningsløst utenfor observert område), og <strong>dataproblemer</strong> som outliers eller multikollinearitet.',
+            analogy: 'Som en helsesjekk på regresjonen: er pasienten realistisk (rimelighet), god kondisjon (R²), våken og responsiv (signifikans), og uten skjulte sykdommer (forutsetninger)?'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva sjekker du med "økonomisk rimelighet"?',
+              choices: [
+                'Om alle koeffisienter er positive',
+                'Om det er en plausibel årsakssammenheng mellom variablene',
+                'Om R² er høy nok',
+                'Om datasettet er stort nok'
+              ],
+              correct: 1,
+              explain: 'Ingen statistikk kan redde en regresjon hvor det ikke gir mening at X faktisk påvirker Y.'
+            },
+            {
+              type: 'mc',
+              prompt: 'En kostnadsfunksjon har estimert konstantledd (FK) = −500. Hva betyr dette i praksis?',
+              choices: [
+                'Funksjonen er feil og må forkastes',
+                'Negative faste kostnader er økonomisk meningsløst, men funksjonen kan likevel være brukbar innenfor observert område',
+                'Bedriften har negative kostnader',
+                'Vi må snu fortegnet'
+              ],
+              correct: 1,
+              explain: 'Matematisk gyldig, men ekstrapolering utenfor observasjonene blir problematisk. Bruk funksjonen kun innenfor relevante volum.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Tester om en variabel har effekt:',
+              text: 'Vi forkaster H₀ (β=0) hvis |t| > ___A___, eller p < ___B___',
+              blanks: [
+                { id: 'A', answer: '1,96' },
+                { id: 'B', answer: '0,05' }
+              ],
+              bank: ['1,96', '0,05', '0,3', '2,58'],
+              explain: 'Standard 5%-signifikansnivå. |t|-verdi over 1,96 betyr at vi kan si effekten er statistisk signifikant.'
+            }
+          ]
+        },
+        {
+          id: 'l30', order: 6, title: 'Valg ved kostnadsfordeling',
+          source: 'Del 1, kap. 4.3.1–4.3.5',
+          intro: {
+            badge: '5 valg',
+            heading: 'En-rate, virkelig vs. budsjett, fordelingsnøkkel',
+            body: 'Fem valg ved kostnadsfordeling: 1) <strong>En-rate vs. to-rate</strong> (samlet eller skille FK/VK), 2) <strong>Virkelige eller budsjetterte kostnader</strong>, 3) <strong>Faktisk eller budsjettert forbruk</strong>, 4) <strong>Fordelingsmetode</strong> (direkte/stegvis/kryss), 5) <strong>Fordelingsnøkkel</strong>. Velg nøkkelen som best reflekterer årsaken til kostnaden.',
+            analogy: 'Som å dele en strømregning i et kollektiv: skal du dele likt eller etter elektriske apparater? Forventet eller faktisk forbruk? Detaljert måling eller én grov regel? Hvert valg har konsekvenser for incentiver.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva er fordelen med to-rate (skille FK og VK) framfor en-rate?',
+              choices: [
+                'Det er enklere å regne ut',
+                'Mer nøyaktig — viser hvordan kostnaden endrer seg ved endret volum',
+                'Det krever mindre data',
+                'Det fjerner alle ulemper'
+              ],
+              correct: 1,
+              explain: 'To-rate skiller volumvariabel kostnad fra fast kapasitetskostnad — gir bedre styringsinformasjon.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvorfor kan en-rate gi "dødens spiral"?',
+              choices: [
+                'Fordi metoden er ulovlig',
+                'Faste og variable kostnader fordeles samlet på enheter, så færre enheter gir høyere enhetskost → enda lavere bruk',
+                'Den fjerner alle insentiver',
+                'Den er for komplisert'
+              ],
+              correct: 1,
+              explain: 'Ved svak utnyttelse blir tjenesten dyrere, brukerne velger eksternt, utnyttelsen synker enda mer — en negativ spiral.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Når man fordeler kostnader basert på BUDSJETTERTE kostnader (ikke virkelige), hva oppnår man?',
+              choices: [
+                'Kjøperen tar regningen for selgerens ineffektivitet',
+                'Selgeren bærer konsekvensen av eget kostnadsavvik — kjøperen får forutsigbar pris',
+                'Det blir umulig å måle avvik',
+                'Det blir alltid for lavt'
+              ],
+              correct: 1,
+              explain: 'Budsjettert kostnad gir kjøperen forutsigbarhet og holder selgeren ansvarlig for å treffe sitt budsjett.'
+            }
+          ]
+        },
+        {
+          id: 'l31', order: 9, title: 'Inntektsfordeling ved pakkepris',
+          source: 'Del 1, kap. 5.1–5.3',
+          intro: {
+            badge: 'Pakketilbud',
+            heading: 'Hvordan fordele "rabatten" mellom produktene?',
+            body: 'En pakke selges billigere enn summen av enkeltproduktene. Hvordan fordele inntekten? <strong>Autonommodellen (stand-alone)</strong>: fordel etter individuelle priser. <strong>Primær/sekundær (inkrementell)</strong>: ett produkt får sin særinntekt, resten til det andre. <strong>Shapley</strong>: gjennomsnittet av primær-rollene = rettferdig fordeling.',
+            analogy: 'TV-pakke for 499 = sport (449 alene) + underholdning (199 alene). Hvilken kanalpakke "fortjener" mest av rabatten? Avhenger av hvordan du fordeler.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Sport koster 449 alene, underholdning 199 alene. Pakkepris: 499. Med Shapley-metoden, hva får sport?',
+              choices: ['449', '300', '374,5', '249,5'],
+              correct: 2,
+              explain: 'Sport som primær: 449. Sport som sekundær: 499−199 = 300. Shapley = (449+300)/2 = 374,5.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er hovedforskjellen mellom autonommodellen for KOSTNADER vs. INNTEKTER?',
+              choices: [
+                'De er identiske matematisk',
+                'For kostnader: stor andel til den som hadde høyest alene-kost. For inntekter: stor andel til den med høyest alene-pris',
+                'Inntekter kan ikke fordeles',
+                'Kostnader bruker bare Shapley'
+              ],
+              correct: 1,
+              explain: 'I begge tilfeller fordeles etter relativ "alene-størrelse", men logikken speiler hverandre.'
+            }
+          ]
+        },
+        {
+          id: 'l32', order: 12, title: 'Taktisk & proaktiv prising',
+          source: 'Del 1, kap. 7.2–7.3',
+          intro: {
+            badge: 'Prisstrategi',
+            heading: 'Prisdiskriminering og prisendringer',
+            body: '<strong>Prisdiskriminering</strong>: ulike kunder betaler ulik pris. Krever 4 forutsetninger: markedsmakt, adskilte markeder, ulik priselastisitet, og hindring av videresalg. <strong>Proaktiv prising</strong>: virksomheten initierer prisendring og må regne ut: <em>nytt antall × nytt DB ≥ gammelt totalt DB</em>. AI/algoritmer muliggjør dynamisk prising men gir utfordringer med personvern og rettferdighet.',
+            analogy: 'Studentrabatt på kino fungerer fordi: kinoen har markedsmakt, studenter er en klart adskilt gruppe, de er mer prisfølsomme enn voksne, og de kan ikke selge billettene videre.'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match forutsetningen for prisdiskriminering med beskrivelsen:',
+              left: [
+                { id: 'm', text: 'Markedsmakt' },
+                { id: 'a', text: 'Adskilte markeder' },
+                { id: 'p', text: 'Ulik priselastisitet' },
+                { id: 'v', text: 'Hindre videresalg' }
+              ],
+              right: [
+                { id: 'm', text: 'Bedriften kan påvirke prisen (ikke fullkommen konkurranse)' },
+                { id: 'a', text: 'Segmenter kan skilles uten lekkasje' },
+                { id: 'p', text: 'Gruppen med høyere pris er mindre prisfølsom' },
+                { id: 'v', text: 'Lavpriskunder skal ikke kunne selge dyrere videre' }
+              ],
+              explain: 'Alle fire må være oppfylt. Hvis student-billetter kunne videreselges, ville rabatten bli misbrukt og strategien sluttet å virke.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Du vurderer å sette ned prisen 10%. Når er den nye prisen lønnsom?',
+              choices: [
+                'Når den nye prisen overstiger variabel kostnad',
+                'Når nytt antall × nytt DB per enhet ≥ gammelt totalt DB',
+                'Når salgsvolumet øker',
+                'Aldri — prisreduksjon er alltid ulønnsom'
+              ],
+              correct: 1,
+              explain: 'Du må selge nok ekstra til at nytt totalt DB minst tilsvarer det opprinnelige.'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'p2', name: 'Del 2A', title: 'Styringssystemer',
+      intro: 'Hvordan ledelsen styrer organisasjonen gjennom ansvarssentre, planlegging, måling og kultur.',
+      lessons: [
+        // ===== DEL 2A =====
+        {
+          id: 'l12', order: 16, title: 'Virksomhetsstyring & desentralisering',
+          source: 'Del 2A, kap. 1–2',
+          intro: {
+            badge: 'Grunnlag',
+            heading: 'Hvorfor trenger vi styringssystem?',
+            body: '<strong>Virksomhetsstyring</strong>: systemer, regler og praksiser ledelsen bruker for å påvirke ansattes beslutninger. <strong>Desentralisering</strong> — fordeling av beslutningsmyndighet nedover — er viktigste årsak til at vi trenger styringssystemer. Hovedprinsipp: <strong>ledere måles bare på det de har myndighet over</strong>.',
+            analogy: 'Et stort skip har en kaptein, men også offiserer for maskin, navigasjon og kommunikasjon. Hver styres på det de faktisk kontrollerer.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva er en hovedfordel ved desentralisering?',
+              choices: [
+                'Toppledelsen får mer makt',
+                'Raskere beslutninger basert på lokal informasjon',
+                'Mindre administrativt arbeid totalt',
+                'Likere lønninger på tvers'
+              ],
+              correct: 1,
+              explain: 'Lokale ledere har bedre informasjon om sine kunder/marked og kan handle raskere.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilken ulempe ved desentralisering kan oppstå?',
+              choices: [
+                'Sub-optimale beslutninger og intern rivalisering',
+                'For lite ansvar til mellomledere',
+                'Toppledelsen mister all kontroll',
+                'Ingen kommunikasjon'
+              ],
+              correct: 0,
+              explain: 'Hver leder optimerer for sin enhet, ikke nødvendigvis helheten — derav suboptimering og rivalisering.'
+            }
+          ]
+        },
+        {
+          id: 'l13', order: 17, title: 'Malmi & Brown-pakken',
+          source: 'Del 2A, kap. 3',
+          intro: {
+            badge: 'Rammeverk',
+            heading: 'Styring som en pakke (5 elementer)',
+            body: 'Malmi & Brown (2008) ser styringssystemet som en helhetlig <strong>pakke</strong> med fem typer kontroll: <strong>1) Administrativ styring</strong> (struktur, policy), <strong>2) Planlegging</strong> (langsiktig + handlingsplaner), <strong>3) Kybernetisk styring</strong> (måling og avvik), <strong>4) Belønning</strong> (insentiver), og <strong>5) Kulturell styring</strong> (verdier, klan, symboler).',
+            analogy: 'Som en orkestermester som styrer ikke bare med taktstokken (kybernetisk), men også oppstilling (admin), notearket (planlegging), applaus (belønning) og felles musikalsk identitet (kultur).'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match styringselementet med eksempel:',
+              left: [
+                { id: 'a', text: 'Administrativ styring' },
+                { id: 'p', text: 'Planlegging' },
+                { id: 'k', text: 'Kybernetisk styring' },
+                { id: 'b', text: 'Belønning' },
+                { id: 'ku', text: 'Kulturell styring' }
+              ],
+              right: [
+                { id: 'a', text: 'Organisasjonsstruktur og policyer' },
+                { id: 'p', text: 'Langtidsplaner og handlingsplaner' },
+                { id: 'k', text: 'Budsjett og avviksmåling' },
+                { id: 'b', text: 'Bonus og insentivordninger' },
+                { id: 'ku', text: 'Verdier, klaner og symboler' }
+              ],
+              explain: 'De fem elementene virker sammen — ikke isolert. Endrer du ett, må de andre tilpasses.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er hovedformålet med virksomhetsstyring ifølge Malmi & Brown?',
+              choices: [
+                'Å maksimere bonusene',
+                'Å operasjonalisere og implementere strategien',
+                'Å tilfredsstille revisorer',
+                'Å lage flere møter'
+              ],
+              correct: 1,
+              explain: 'Styringssystemet skal hjelpe virksomheten å nå strategiske mål, ikke bare måle for målingens skyld.'
+            }
+          ]
+        },
+        {
+          id: 'l14', order: 18, title: 'Ansvarssentre: 4 typer',
+          source: 'Del 2A, kap. 3.2',
+          intro: {
+            badge: 'Organisering',
+            heading: 'Skjelettet i styringssystemet',
+            body: 'Fire typer ansvarssentre etter hva lederen har myndighet over: <strong>Inntektssenter</strong> (bare inntekter), <strong>Kostnadssenter</strong> (kostnader — standardkost eller utgift), <strong>Resultatsenter</strong> (inntekter + kostnader, ikke investering), <strong>Investeringssenter</strong> (alt + investeringer; måles på ROI).',
+            analogy: 'Tenk på en familiefirma: butikkbestyrer (inntekt+kost), HR-sjef (utgiftssenter), datterselskap-sjef (investerings­senter). Hver måles på det de styrer.'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match ansvarssenteret med riktig ansvar:',
+              left: [
+                { id: 'i', text: 'Inntektssenter' },
+                { id: 'k', text: 'Standardkostnadssenter' },
+                { id: 'r', text: 'Resultatsenter' },
+                { id: 'in', text: 'Investeringssenter' }
+              ],
+              right: [
+                { id: 'i', text: 'Bare inntekter, ikke kostnader/investering' },
+                { id: 'k', text: 'Kostnader basert på standardkost — produksjon' },
+                { id: 'r', text: 'Inntekter og kostnader, ikke investering' },
+                { id: 'in', text: 'Alt ansvar inkludert kapital — måles på ROI' }
+              ],
+              explain: 'Hovedprinsipp: ledere måles bare på det de har myndighet over.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er forskjellen mellom et standardkostnadssenter og et utgiftssenter?',
+              choices: [
+                'Ingen forskjell',
+                'Standardkost: produksjon kan måles i enheter (kost per enhet). Utgiftssenter: output ikke målbar i kr (HR, IT, FoU)',
+                'Utgiftssenter har inntekter, standardkostnadssenter har det ikke',
+                'Standardkostnadssenter er alltid mindre'
+              ],
+              correct: 1,
+              explain: 'Standardkost passer der vi har målbare enheter (produksjon). Utgiftssentre styres på budsjett fordi output ikke kan måles i kroner.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Sentralt nøkkeltall for et investeringssenter er:',
+              text: '___A___, som forholder ___B___ til investert ___C___.',
+              blanks: [
+                { id: 'A', answer: 'ROI' },
+                { id: 'B', answer: 'resultat' },
+                { id: 'C', answer: 'kapital' }
+              ],
+              bank: ['ROI', 'resultat', 'kapital', 'omsetning'],
+              explain: 'ROI = Resultat / Investering. Brukes for å måle hvor effektivt kapital benyttes.'
+            }
+          ]
+        },
+        {
+          id: 'l15', order: 19, title: 'Resultat- vs. investeringssenter',
+          source: 'Del 2A, kap. 3.2.3–3.2.4',
+          intro: {
+            badge: 'Fordypning',
+            heading: 'Når trenger man en egen balanse?',
+            body: 'Et <strong>resultatsenter</strong> styres på inntekter og kostnader. Et <strong>investeringssenter</strong> har i tillegg ansvar for kapitalbinding (eiendeler) og investeringer — derfor trenger det <strong>egen balanse</strong>. Det gir bedre beslutninger om kapitalanvendelse, men også høyere administrative kostnader.',
+            analogy: 'Resultatsenter = sjef for restaurant (skal tjene penger). Investeringssenter = sjef for restaurantkjede (avgjør også om vi skal pusse opp eller åpne nye restauranter).'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hvorfor bør et investeringssenter ha egen balanse?',
+              choices: [
+                'For å få mer makt',
+                'For nøyaktig måling av avkastning og lederansvar for både eiendeler og gjeld',
+                'For å spare skatt',
+                'For å kunne ta fri'
+              ],
+              correct: 1,
+              explain: 'Egen balanse gir transparens om kapitalbinding og kobler resultatet direkte til kapitalbruken.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er en typisk ulempe ved resultatsenter?',
+              choices: [
+                'For lite ansvar',
+                'Risiko for kortsiktig fokus fremfor langsiktig lønnsomhet',
+                'Sentraliserer alt ansvar',
+                'Krever ingen rapportering'
+              ],
+              correct: 1,
+              explain: 'Når en leder måles på resultatet, kan det fristes til kostnadskutt som skader langsiktig posisjon.'
+            }
+          ]
+        },
+        {
+          id: 'l16', order: 20, title: 'Kybernetisk styring (styringssløyfen)',
+          source: 'Del 2A, kap. 3.4',
+          intro: {
+            badge: 'Prosess',
+            heading: 'Mål → Plan → Handling → Resultat',
+            body: 'Styringssløyfen er en kontinuerlig prosess: 1) <strong>Mål/Strategi</strong>, 2) <strong>Handlingsplaner/Budsjett/KPI</strong>, 3) <strong>Handling</strong> (effektive prosesser), 4) <strong>Resultat/Evaluering</strong> (avviksanalyse), og 5) <strong>Tiltak ved avvik</strong>. I BMS rapporteres resultatet ofte med "trafikklys" (grønn/gul/rød).',
+            analogy: 'Som en GPS som hele tiden sjekker hvor du er vs. hvor du skal — og foreslår ny rute hvis du tar feil sving.'
+          },
+          questions: [
+            {
+              type: 'cloze',
+              prompt: 'Riktig rekkefølge i styringssløyfen:',
+              text: 'Mål → ___A___ → Handling → ___B___ → Tiltak ved avvik',
+              blanks: [
+                { id: 'A', answer: 'Plan' },
+                { id: 'B', answer: 'Resultat' }
+              ],
+              bank: ['Plan', 'Resultat', 'Bonus', 'Strategi'],
+              explain: 'Sløyfen lukkes når man tar tiltak basert på resultatene og dermed påvirker neste runde.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er hensikten med "trafikklys"-rapportering i BMS?',
+              choices: [
+                'Skape stress',
+                'Visuelt vise om virksomheten er på rett vei eller om tiltak må iverksettes',
+                'Erstatte tall i regnskapet',
+                'Spare tid på møter'
+              ],
+              correct: 1,
+              explain: 'Grønn/gul/rød er en rask visuell indikator for å se status uten å lese all dataen.'
+            }
+          ]
+        },
+        {
+          id: 'l17', order: 24, title: 'Budsjett: Inkrementell vs. nullbase',
+          source: 'Del 2A, kap. 5.6',
+          intro: {
+            badge: 'Budsjettering',
+            heading: 'To prinsipielt ulike tilnærminger',
+            body: '<strong>Inkrementell budsjettering</strong> er en framskrivning av fjorårets resultat — enkel, men reproduserer skjevheter. <strong>Nullbasebudsjettering</strong> bygger budsjettet fra null hver periode; alle aktiviteter må begrunnes på nytt. Brukes for kostnadskutt og strategisk omprioritering. Beslutningspakker rangeres I/II/III etter viktighet.',
+            analogy: 'Inkrementell: "I fjor brukte vi 100 000 på markedsføring, så i år gir vi 105 000". Nullbase: "Trenger vi markedsføring i det hele tatt? Hvis ja, hvorfor og hvor mye?"'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match metoden med dens hovedkjennetegn:',
+              left: [
+                { id: 'i', text: 'Inkrementell' },
+                { id: 'n', text: 'Nullbase' }
+              ],
+              right: [
+                { id: 'i', text: 'Framskrivning av fjoråret med justeringer' },
+                { id: 'n', text: 'Bygges fra null — alle kostnader må begrunnes' }
+              ],
+              explain: 'Inkrementell er enklere; nullbase gir bedre prioritering men er mer ressurskrevende.'
+            },
+            {
+              type: 'mc',
+              prompt: 'I nullbasebudsjettering — hva er Pakke I?',
+              choices: [
+                'Aktiviteter som er morsomme',
+                'Aktiviteter som må gjøres for å overleve (forpliktelser, lovkrav)',
+                'Aktiviteter som kan kuttes',
+                'Aktiviteter som krever ekstra budsjett'
+              ],
+              correct: 1,
+              explain: 'Pakke I = absolutt nødvendige. II = viktige. III = bare hvis budsjettet øker.'
+            }
+          ]
+        },
+        {
+          id: 'l18', order: 25, title: 'Budsjett: Top-down vs. bottom-up',
+          source: 'Del 2A, kap. 5.8',
+          intro: {
+            badge: 'Prosess',
+            heading: 'Hvem lager budsjettet?',
+            body: '<strong>Nedbrytning (top-down)</strong>: Toppledelsen fastsetter rammer og bryter ned på enheter. Effektiv, men gir lite eierskap. <strong>Oppbygging (bottom-up)</strong>: Hver enhet forslår eget budsjett som spilles oppover. Mer demokratisk og realistisk, men tidkrevende. I praksis blandes ofte de to.',
+            analogy: 'Top-down: rektor bestemmer pensum. Bottom-up: lærerne foreslår, og rektor godkjenner. Vanlig: en blanding.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Når er top-down budsjett særlig egnet?',
+              choices: [
+                'Når alle enheter trenger å være enige',
+                'I økonomisk krise eller når toppledelsen har klart bedre informasjon',
+                'Når budsjettet er stort',
+                'Når ansatte er veldig motiverte'
+              ],
+              correct: 1,
+              explain: 'I krisesituasjoner trenger man rask handling, og toppledelsen kan ha bedre helhetsoversikt.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Største ulempe ved bottom-up?',
+              choices: [
+                'Lite eierskap blant ansatte',
+                'Tidkrevende prosess og vanskelig å gjøre endringer i sluttfasen',
+                'Toppledelsen mister kontroll',
+                'Ikke realistisk'
+              ],
+              correct: 1,
+              explain: 'Mange forhandlingsrunder tar tid. Endringer på sluttstrek er vanskelige fordi tallene er forhandlet på lavere nivå.'
+            }
+          ]
+        },
+        {
+          id: 'l19', order: 26, title: 'BMS: Fire perspektiver',
+          source: 'Del 2A, kap. 6',
+          intro: {
+            badge: 'Strategi',
+            heading: 'Balansert målstyring (Kaplan & Norton)',
+            body: 'BMS måler prestasjon i fire perspektiver i fast årsak-virkning-rekkefølge: <strong>Læring og vekst → Interne prosesser → Kunde → Finansielt</strong>. Logikken: utvikling av folk og verktøy gir bedre prosesser, som gir fornøyde kunder, som gir finansielle resultater. Tre typer BMS: Type I (måling), Type II (kobling til strategi via strategikart), Type III (handling).',
+            analogy: 'Som en plante: røttene (læring) → stilken (prosesser) → bladene (kunde) → frukten (finansielt). Du kan ikke høste frukt uten å ta vare på røttene.'
+          },
+          questions: [
+            {
+              type: 'cloze',
+              prompt: 'Riktig rekkefølge i strategikartet (nedenfra og opp):',
+              text: 'Læring og vekst → Interne ___A___ → ___B___ → Finansielt',
+              blanks: [
+                { id: 'A', answer: 'prosesser' },
+                { id: 'B', answer: 'Kunde' }
+              ],
+              bank: ['prosesser', 'Kunde', 'Eier', 'Strategi'],
+              explain: 'Den standardiserte årsak-virkning-kjeden i Kaplan & Nortons rammeverk.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilken type BMS legger størst vekt på årsak-virkning via strategikart?',
+              choices: ['Type I', 'Type II', 'Type III', 'Ingen av dem'],
+              correct: 1,
+              explain: 'Type II introduserer strategikartet som visuelt verktøy for å vise koblingene mellom delmål.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er forskjellen på leading og lagging indicators?',
+              choices: [
+                'Leading kommer i lederlønner, lagging i ansattelønner',
+                'Leading er forkantindikatorer (driver fremtidige resultat), lagging er resultatmål (det som har skjedd)',
+                'De er synonymer',
+                'Leading er kvalitative, lagging er kvantitative'
+              ],
+              correct: 1,
+              explain: 'Balanse av begge gir både rear-view (lagging) og forward-view (leading) på prestasjon.'
+            }
+          ]
+        },
+        {
+          id: 'l20', order: 28, title: 'Trippel bunnlinje',
+          source: 'Del 2A, kap. 7',
+          intro: {
+            badge: 'Bærekraft',
+            heading: 'People, Planet, Profit',
+            body: 'Trippel bunnlinje (TBL) balanserer tre <strong>P-er</strong>: <strong>People</strong> (rettferdige lønninger, mangfold, arbeidsmiljø), <strong>Planet</strong> (redusert økologisk fotavtrykk), <strong>Profit/Prosperity</strong> (langsiktig økonomisk bærekraft). I motsetning til tradisjonell modell der bare aksjonærer teller, inkluderer TBL ansatte, miljø og samfunn som interessenter.',
+            analogy: 'Tradisjonell modell: en stol med ett ben (profit) — vakler. TBL: en krakk med tre ben — stabil over tid.'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match pilaren med innholdet:',
+              left: [
+                { id: 'pe', text: 'People' },
+                { id: 'pl', text: 'Planet' },
+                { id: 'pr', text: 'Profit/Prosperity' }
+              ],
+              right: [
+                { id: 'pe', text: 'Rettferdige lønninger, mangfold, menneskerettigheter' },
+                { id: 'pl', text: 'Reduserte utslipp, ressursbruk, biologisk mangfold' },
+                { id: 'pr', text: 'Langsiktig økonomisk bærekraft og verdiskaping' }
+              ],
+              explain: 'TBL ser disse som gjensidig avhengige, ikke i konflikt.'
+            },
+            {
+              type: 'mc',
+              prompt: 'En typisk forskjell mellom tradisjonell modell og TBL:',
+              choices: [
+                'TBL har ingen finansielle mål',
+                'Tradisjonell ser bare aksjonærer; TBL inkluderer ansatte, miljø, samfunn',
+                'TBL er bare for små bedrifter',
+                'Tradisjonell krever mer rapportering'
+              ],
+              correct: 1,
+              explain: 'TBL utvider interessentbegrepet og suksessmålene fra ren P&L til balansert målekort med 3 P-er.'
+            }
+          ]
+        },
+        {
+          id: 'l21', order: 29, title: 'Kvalitetskostnader (PIFF-modellen)',
+          source: 'Del 2A, kap. 8',
+          intro: {
+            badge: 'Kvalitet',
+            heading: 'Fire kategorier kostnader knyttet til kvalitet',
+            body: 'Kvalitetskostnader (Cost of Quality) er kostnader for å hindre eller rette feil. <strong>PIFF-modellen</strong>: <strong>P</strong>reventive (forebygging), <strong>I</strong>nspeksjon, <strong>F</strong>eilkostnader interne (oppdaget før levering), <strong>F</strong>eilkostnader eksterne (oppdaget etter levering). Investering i preventive tiltak reduserer typisk feilkostnader.',
+            analogy: 'Tannlegen: P = puss tenner. I = tannsjekk. F-intern = liten lapp som tannlegen retter. F-ekstern = rotfylling fordi du ignorerte verken.'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match kvalitetskostnaden med riktig kategori:',
+              left: [
+                { id: 'p', text: 'Opplæring av kvalitetsmedarbeidere' },
+                { id: 'i', text: 'Inspeksjon underveis i produksjon' },
+                { id: 'fi', text: 'Reparasjon av defekt produkt før levering' },
+                { id: 'fe', text: 'Garantireparasjon hos kunde' }
+              ],
+              right: [
+                { id: 'p', text: 'Preventive' },
+                { id: 'i', text: 'Inspeksjon' },
+                { id: 'fi', text: 'Interne feilkostnader' },
+                { id: 'fe', text: 'Eksterne feilkostnader' }
+              ],
+              explain: 'Skille mellom interne og eksterne feilkostnader er om feilen oppdages før eller etter at varen er levert til kunden.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er forskjellen på designkvalitet og kongruenskvalitet?',
+              choices: [
+                'Designkvalitet handler om utseende, kongruens om brukervennlighet',
+                'Designkvalitet: samsvar mellom egenskaper og kundeønsker. Kongruenskvalitet: samsvar mellom spesifikasjon og levert produkt',
+                'Det er det samme',
+                'Designkvalitet kommer før kongruens'
+              ],
+              correct: 1,
+              explain: 'Designkvalitet påvirker etterspørsel/inntekter; kongruenskvalitet påvirker kvalitetskostnadene direkte.'
+            }
+          ]
+        },
+        {
+          id: 'l33', order: 21, title: 'Belønning & kulturell styring',
+          source: 'Del 2A, kap. 3.5–3.6',
+          intro: {
+            badge: 'Soft styring',
+            heading: 'Når penger og kultur driver adferd',
+            body: '<strong>Belønning</strong>: tradisjonelt syn — koble belønning til prestasjon for å skape <em>målkongruens</em> (felles mål mellom individ og organisasjon). Argumentet: belønning øker innsats og motivasjon. <strong>Kulturell styring</strong> (Malmi & Brown) virker gjennom 3 mekanismer: <strong>Verdier</strong> (felles holdninger), <strong>Symboler</strong> (kontorutforming, ritualer, dresskode), og <strong>Klan</strong> (subkulturer i avdelinger/profesjoner).',
+            analogy: 'Et helsehus styres ikke bare av lønn og rutiner. Felles verdier (pasient først), symboler (hvit frakk, korridorrop "kode blå"), og legekulturen (klan) påvirker like mye som ledelsens KPI-er.'
+          },
+          questions: [
+            {
+              type: 'cloze',
+              prompt: 'Tradisjonelt syn på belønning:',
+              text: 'Ved å koble belønning til prestasjon oppnår man ___A___ mellom individets og organisasjonens mål.',
+              blanks: [
+                { id: 'A', answer: 'målkongruens' }
+              ],
+              bank: ['målkongruens', 'desentralisering', 'sub-optimalisering', 'målkonflikt'],
+              explain: 'Målkongruens = situasjon der individer på flere nivåer deler det samme målet.'
+            },
+            {
+              type: 'match',
+              prompt: 'Match kulturmekanismen med eksempel:',
+              left: [
+                { id: 'v', text: 'Verdier' },
+                { id: 's', text: 'Symboler' },
+                { id: 'k', text: 'Klan' }
+              ],
+              right: [
+                { id: 'v', text: 'Felles holdning om at "kunden alltid har rett"' },
+                { id: 's', text: 'Kontorutforming, dresskode, kakefredag' },
+                { id: 'k', text: 'Egen kultur blant ingeniørene vs. selgere' }
+              ],
+              explain: 'De tre virker sammen: verdier sier hva som er riktig, symboler signaliserer det daglig, klaner bærer det videre i sub-grupper.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvordan kobles kulturell styring til policy og rutiner?',
+              choices: [
+                'De er helt uavhengige',
+                'Gjennom forpliktelser — å sette verdiene ut i praksis (etikk, bærekraft, antikorrupsjon)',
+                'Gjennom direkte ordre fra toppledelsen',
+                'Bare gjennom belønningssystemet'
+              ],
+              correct: 1,
+              explain: 'Forpliktelser som etikk, mangfold, antikorrupsjon mv. er måten verdier konkretiseres som regler.'
+            }
+          ]
+        },
+        {
+          id: 'l34', order: 22, title: 'Virksomhetsstyring for bærekraft',
+          source: 'Del 2A, kap. 4',
+          intro: {
+            badge: 'Bærekraft',
+            heading: 'Green Deal, taksonomi & ESRS',
+            body: 'EUs <strong>Green Deal</strong> er en grønn vekststrategi som skal gi klimanøytralitet innen 2050. Tre pilarer i bærekraftig finans: 1) <strong>Taksonomien</strong> — reorientere kapital mot bærekraftige investeringer, 2) <strong>SFDR</strong> — bærekraft i risikostyring, 3) <strong>CSRD/ESRS</strong> — åpenhet og rapportering. <strong>ESRS</strong> har generelle (ESRS 1–2) og emnespesifikke standarder (E1–E5 klima/miljø, S1–S4 sosialt, G1 styring).',
+            analogy: 'Tenk på det som et nytt regnskapsspråk for bærekraft: like obligatorisk og standardisert som finansregnskap, men dekker miljø, sosiale forhold og styring i stedet for bare kroner.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva er hovedmålet med EUs Green Deal?',
+              choices: [
+                'Å øke skatteinntekter',
+                'Å gjøre EU klimanøytralt innen 2050 og skape bærekraftig økonomi',
+                'Å redusere innvandring',
+                'Å regulere internett'
+              ],
+              correct: 1,
+              explain: 'Green Deal samler ambisjoner, strategier og handlingsplaner for grønn omstilling og klimanøytralitet.'
+            },
+            {
+              type: 'match',
+              prompt: 'Match standarden med temaet:',
+              left: [
+                { id: 'e', text: 'ESRS E1–E5' },
+                { id: 's', text: 'ESRS S1–S4' },
+                { id: 'g', text: 'ESRS G1' }
+              ],
+              right: [
+                { id: 'e', text: 'Klima og miljø' },
+                { id: 's', text: 'Sosiale forhold' },
+                { id: 'g', text: 'Styring (governance)' }
+              ],
+              explain: 'ESRS dekker den klassiske ESG-trekanten: Environment, Social, Governance.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilken pilar i EUs handlingsplan handler om åpenhet og rapportering?',
+              choices: [
+                'Taksonomien',
+                'SFDR',
+                'CSRD/ESRS',
+                'Green Deal'
+              ],
+              correct: 2,
+              explain: 'CSRD (direktivet) krever rapportering, ESRS er selve standardene som rapporteringen følger.'
+            }
+          ]
+        },
+        {
+          id: 'l35', order: 23, title: 'Budsjettets formål & typer',
+          source: 'Del 2A, kap. 5.1–5.5',
+          intro: {
+            badge: 'Budsjett 101',
+            heading: 'To formål, tre hovedbudsjetter, fire tidshorisonter',
+            body: 'Budsjettet har <strong>to hovedformål</strong>: 1) <strong>Planlegging og koordinering</strong>, 2) <strong>Påvirke adferd</strong>. Tre hovedbudsjetter: <strong>resultat-, likviditets- og balansebudsjett</strong>. Fire tidshorisonter: <strong>faste</strong> (ligger fast hele perioden), <strong>variable</strong> (beregnes ut fra faktisk volum), <strong>reviderte</strong> (oppdateres ved store endringer), <strong>rullerende</strong> (alltid 12 mnd frem). Forutsetningene baseres på makro, trender, innsatsfaktorer og rammebetingelser.',
+            analogy: 'Som planleggingen av en lang reise: du har én plan for hele turen (fast), endrer hotell etter været (revidert), planlegger alltid 12 dager frem (rullerende), eller justerer per dag etter hvor mange du faktisk er (variabelt).'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva er de TO hovedformålene med et budsjett?',
+              choices: [
+                'Å spare skatt og lure revisor',
+                'Planlegging/koordinering og påvirke adferd',
+                'Å sette pris og kalkulere kostnader',
+                'Å belønne ledere'
+              ],
+              correct: 1,
+              explain: 'Disse to formålene kan iblant trekke i ulike retninger — en stor utfordring i budsjettarbeidet.'
+            },
+            {
+              type: 'match',
+              prompt: 'Match budsjett-tidshorisonten med beskrivelsen:',
+              left: [
+                { id: 'f', text: 'Faste budsjetter' },
+                { id: 'v', text: 'Variable budsjetter' },
+                { id: 'r', text: 'Reviderte budsjetter' },
+                { id: 'ru', text: 'Rullerende budsjetter' }
+              ],
+              right: [
+                { id: 'f', text: 'Ligger fast i hele perioden' },
+                { id: 'v', text: 'Beregnes ut fra faktisk solgte enheter' },
+                { id: 'r', text: 'Oppdateres ved større endringer i forutsetninger' },
+                { id: 'ru', text: 'Horisonten forskyves kontinuerlig (alltid 12 mnd frem)' }
+              ],
+              explain: 'Valg avhenger av hvor stabil bransjen er og hvor mye usikkerhet man må håndtere.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er IKKE en av de fire kategoriene budsjettforutsetninger?',
+              choices: [
+                'Makroøkonomiske forhold (valuta, rente, inflasjon)',
+                'Utviklingstrekk og megatrender',
+                'Tilgang og priser på innsatsfaktorer',
+                'Konkurrentenes private regnskap'
+              ],
+              correct: 3,
+              explain: 'Vi har ikke tilgang til konkurrentenes interne tall. De fire er makro, trender, innsatsfaktorer, og rammebetingelser.'
+            }
+          ]
+        },
+        {
+          id: 'l36', order: 27, title: 'BMS: kommunikasjon, vs budsjett, utfordringer',
+          source: 'Del 2A, kap. 6.4–6.5',
+          intro: {
+            badge: 'BMS i praksis',
+            heading: 'Hvorfor BMS slår tradisjonell budsjettstyring',
+            body: 'BMS dekker hele <strong>verdiskapingsprosessen</strong>; budsjettstyring ser bare på det finansielle resultatet i etterkant. BMS kombinerer kort/lang sikt og leading/lagging indikatorer. Men BMS har også utfordringer: <strong>som verktøy</strong> (samme måltall som andre, måler det målbare i stedet for det viktige, mangler årsak-virkning, for mange KPI-er), og <strong>for adferd</strong> (kaskadering oppleves lite motiverende, suboptimal adferd som å fokusere kun på egne grønne KPI-er).',
+            analogy: 'Tradisjonelt budsjett er som å bare se i bakspeilet. BMS er hele dashbordet — speed, drivstoff, motor, navigasjon — men kan også overvelde sjåføren med blink hvis man har for mange varsellamper.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'En hovedforskjell mellom BMS og tradisjonell budsjettstyring:',
+              choices: [
+                'BMS er bare for store selskaper',
+                'BMS dekker hele verdiskapingsprosessen og kombinerer leading + lagging indikatorer; budsjett ser kun finansielt resultat i etterkant',
+                'Budsjett er ulovlig',
+                'BMS bruker ikke tall'
+              ],
+              correct: 1,
+              explain: 'BMS er forward-looking og helhetlig, mens budsjett er backward-looking og finansielt.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er en typisk utfordring med BMS som verktøy?',
+              choices: [
+                'For få KPI-er',
+                'Måler det man kan måle i stedet for det som faktisk er viktig',
+                'Den fjerner all rapportering',
+                'Den krever ingen ressurser'
+              ],
+              correct: 1,
+              explain: 'Lett å falle for at det som er enkelt å måle (timer, antall) erstatter det som virkelig betyr noe (verdi for kunde).'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva betyr "suboptimal adferd" i BMS-sammenheng?',
+              choices: [
+                'Ansatte gjør sitt beste',
+                'Fokus på å få egne KPI-er grønne, selv om det skader helheten',
+                'Ledelsen ignorerer alle tall',
+                'Bonusen er for høy'
+              ],
+              correct: 1,
+              explain: 'Når lederen optimerer for sine egne måltall (silotenkning) i stedet for å samarbeide for helhetens mål.'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'p3', name: 'Del 2B', title: 'Finansiell analyse',
+      intro: 'Avviksanalyse, lønnsomhetsmål og hvordan vi vurderer prestasjoner finansielt.',
+      lessons: [
+        // ===== DEL 2B =====
+        {
+          id: 'l22', order: 30, title: 'Vekst, pris & produktivitet',
+          source: 'Del 2B, kap. 1 & 5',
+          intro: {
+            badge: 'Avvikslogikk',
+            heading: 'Tre drivere bak lønnsomhetsendring',
+            body: 'Lønnsomhetsendring kan dekomponeres i tre drivere: <strong>Vekst</strong> (volum og produktmiks), <strong>Prisdekning</strong> (forholdet salgspris/innkjøpspris), <strong>Produktivitet</strong> (enheter per innsatsfaktor). Avvik analyseres over tid, mot budsjett, eller mot andre aktører.',
+            analogy: 'Som en tre-trinns rakett: vekst gir oppdrift (mer volum), prisdekning sikrer styrke (gode marginer), produktivitet effektivisering (mindre drivstoff per kilometer).'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Volumavvik beregnes typisk som:',
+              choices: [
+                '(Volum år 2 − Volum år 1) × Pris år 2',
+                '(Volum år 2 − Volum år 1) × Pris år 1',
+                '(Pris år 2 − Pris år 1) × Volum år 1',
+                'Volum år 2 × Pris år 2'
+              ],
+              correct: 1,
+              explain: 'Volumavvik holder prisen fast (på år 1-nivå) for å isolere effekten av volum.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Prisavvik beregnes som:',
+              choices: [
+                '(Pris år 2 − Pris år 1) × Volum år 2',
+                '(Pris år 2 − Pris år 1) × Volum år 1',
+                '(Volum år 2 − Volum år 1) × Pris år 2',
+                'Pris år 2 × Volum år 2'
+              ],
+              correct: 0,
+              explain: 'Prisavvik holder volumet fast på år 2-nivå for å isolere effekten av prisendringen.'
+            }
+          ]
+        },
+        {
+          id: 'l23', order: 32, title: 'Salgsvolumavvik dekomponert',
+          source: 'Del 2B, kap. 6',
+          intro: {
+            badge: 'Avansert avvik',
+            heading: 'Salgsvolumavvik = mengdeavvik + miksavvik',
+            body: 'Salgsvolumavvik kan dekomponeres i: <strong>Rent mengdeavvik</strong> = (Volum år 2 − Volum år 1) × Gj.snittlig DB år 1, og <strong>Salgsmiksavvik</strong> = (Volum år 2 − Volum år 1) × (DB år 1 − Gj.snittlig DB år 1). Mengdeavvik kan splittes videre i markedsstørrelses- og markedsandelsavvik.',
+            analogy: 'Du selger både kake og brus. Mengde: solgte du flere stykker totalt? Miks: ble forholdet mellom kake og brus endret? Begge påvirker totalavviket.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hva forklarer markedsstørrelsesavviket?',
+              choices: [
+                'Endring i bedriftens markedsandel',
+                'Endring i størrelsen på det totale markedet',
+                'Endring i salgsmiks',
+                'Endring i pris'
+              ],
+              correct: 1,
+              explain: 'Markedsstørrelsesavvik = (Markedsstr. år 2 − år 1) × Markedsandel år 1 × Gj.DB år 1.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva forklarer markedsandelsavviket?',
+              choices: [
+                'Endring i markedets totale størrelse',
+                'Endring i bedriftens markedsandel',
+                'Endring i pris',
+                'Endring i variable kostnader'
+              ],
+              correct: 1,
+              explain: 'Markedsandelsavvik = (Markedsandel år 2 − år 1) × Markedsstr. år 2 × Gj.DB år 1.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Salgsmiksavvik:',
+              text: 'Salgsmiksavvik = (Volum år 2 − Volum år 1) × (___A___ år 1 − ___B___ år 1)',
+              blanks: [
+                { id: 'A', answer: 'DB' },
+                { id: 'B', answer: 'Gj.DB' }
+              ],
+              bank: ['DB', 'Gj.DB', 'Pris', 'VK'],
+              explain: 'Miksavviket fanger om vi solgte mer av høy-DB-produkter eller lav-DB-produkter.'
+            }
+          ]
+        },
+        {
+          id: 'l24', order: 33, title: 'Produktivitet vs. effektivitet',
+          source: 'Del 2B, kap. 8',
+          intro: {
+            badge: 'Begrepsavklaring',
+            heading: 'Like ord, ulik betydning',
+            body: '<strong>Produktivitet</strong> = sammenhengen mellom <strong>innsatsfaktorer og produksjon</strong> (output/input). <strong>Effektivitet</strong> = forholdet mellom <strong>ressursinnsats og måloppnåelse</strong>. Du kan være produktiv uten å være effektiv: produsere mye av feil ting raskt.',
+            analogy: 'Produktivt: å bake 100 kaker på en time. Effektivt: at kakene faktisk solgte. Begge trenger man.'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match begrepet med beskrivelsen:',
+              left: [
+                { id: 'p', text: 'Produktivitet' },
+                { id: 'e', text: 'Effektivitet' }
+              ],
+              right: [
+                { id: 'p', text: 'Innsatsfaktorer → produksjon (mengde per ressurs)' },
+                { id: 'e', text: 'Ressursinnsats → måloppnåelse (treffer vi målet?)' }
+              ],
+              explain: 'Et sykehus kan være produktivt (mange operasjoner per kr) men lite effektivt hvis pasientene ikke blir friske.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvordan beregnes produktivitetsavvik?',
+              choices: [
+                '(Faktisk pris − Forventet pris) × Volum',
+                '(Virkelig ressursforbruk − Forventet ressursforbruk ved år 1 volum) × År 1 priser',
+                '(Volum år 2 − Volum år 1) × Pris',
+                'Pris år 2 × Volum år 2'
+              ],
+              correct: 1,
+              explain: 'Vi sammenligner faktisk ressursbruk med det vi skulle forvente gitt fjorårets produktivitet og årets volum.'
+            }
+          ]
+        },
+        {
+          id: 'l25', order: 34, title: 'ROI – Return on Investment',
+          source: 'Del 2B, kap. 9',
+          intro: {
+            badge: 'Hovedmål',
+            heading: 'Avkastning på investert kapital',
+            body: '<strong>ROI = Resultat / Investering</strong>. Kan dekomponeres i <strong>ROS × Omløpshastighet</strong>: ROI = (Resultat/Omsetning) × (Omsetning/Investering). Investering = totalkapital (Anleggsmidler + Omløpsmidler), eventuelt minus rentefri kortsiktig gjeld = sysselsatt kapital. Finanskostnader inkluderes IKKE.',
+            analogy: 'Du har 100 000 kr og kjøper et hus du leier ut. Får 5 000 kr i overskudd. ROI = 5 %. Kan øke via bedre leie (ROS) eller selge og kjøpe hus som omsettes raskere (omløpshastighet).'
+          },
+          questions: [
+            {
+              type: 'cloze',
+              prompt: 'ROI-dekomponering:',
+              text: 'ROI = ___A___ × Totalkapitalens ___B___',
+              blanks: [
+                { id: 'A', answer: 'Resultatgrad' },
+                { id: 'B', answer: 'omløpshastighet' }
+              ],
+              bank: ['Resultatgrad', 'omløpshastighet', 'Margin', 'Vekst'],
+              explain: 'Du forbedrer ROI ved å øke marginer (ROS) eller binde mindre kapital per omsetningskrone.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Du har Resultat 800, Omsetning 4000, Investering 5000. Hva er ROI?',
+              choices: ['8 %', '16 %', '20 %', '50 %'],
+              correct: 1,
+              explain: 'ROI = 800 / 5000 = 16 %. Eller: ROS (20%) × Omløp (0,8) = 16%.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilken ulempe har ROI som måltall?',
+              choices: [
+                'Den er for vanskelig å regne ut',
+                'Lønnsomme prosjekter med lavere ROI enn dagens kan bli avvist (insentiver mot investering)',
+                'Den krever spesialprogramvare',
+                'Den ignorerer omsetning'
+              ],
+              correct: 1,
+              explain: 'Ledere vil ikke trekke ned snittet, så de kan takke nei til prosjekter som faktisk er lønnsomme over avkastningskravet.'
+            }
+          ]
+        },
+        {
+          id: 'l26', order: 35, title: 'ROI: gjenanskaffelseskost',
+          source: 'Del 2B, kap. 9.2',
+          intro: {
+            badge: 'Justering',
+            heading: 'Når historisk kost lyver',
+            body: 'Ved inflasjon overvurderes ROI fordi omsetningen øker med priser, mens avskrivningene henger etter (basert på historisk kost). Resultatet: enheter med eldre utstyr ser bedre ut enn de er → insentiver til å ikke investere. Løsning: <strong>juster til gjenanskaffelseskost</strong>, dvs. hva det ville koste å erstatte eiendelene i dag.',
+            analogy: 'Du kjøpte sykkelen din for 5000 i 2010. Den brukes fortsatt og leier den ut for 1000/år. ROI ser god ut — men hadde du kjøpt en ny sykkel i dag for 12 000, ville bildet vært et helt annet.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hvorfor kan ROI overvurderes ved inflasjon?',
+              choices: [
+                'Inntektene faller',
+                'Avskrivningene justeres ikke selv om omsetningen øker med prisstigning',
+                'Renten er for høy',
+                'Kostnader er for lave'
+              ],
+              correct: 1,
+              explain: 'Inntektsveksten følger prisøkningen, men avskrivningene er låst til historisk kost — derfor blåses resultatet kunstig opp.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er hensikten med gjenanskaffelseskost-justering?',
+              choices: [
+                'Å gjøre regnskapet enklere',
+                'Å fjerne systematisk overvurdering av ROI ved prisstigning',
+                'Å spare skatt',
+                'Å øke bonusen'
+              ],
+              correct: 1,
+              explain: 'Justeringen viser ROI som om alle eiendelene var anskaffet til dagens priser — mer rettferdig sammenligning.'
+            }
+          ]
+        },
+        {
+          id: 'l27', order: 37, title: 'ROS, RI & EVA',
+          source: 'Del 2B, kap. 10–12',
+          intro: {
+            badge: 'Alternative mål',
+            heading: 'Når ROI ikke holder',
+            body: '<strong>ROS</strong> (Return on Sales) = Resultat / Omsetning — bra når kapitalen er usikker (handel, tjenester). Tar ikke hensyn til kapital. <strong>RI</strong> (Residual Income, "superprofitt") = Driftsresultat − (Avkastningskrav × Kapitalbinding). <strong>EVA</strong> = Driftsresultat etter skatt − WACC × (Eiendeler − kortsiktig gjeld). Bedre enn ROI fordi de absoluttverdsetter overskuddet over avkastningskravet.',
+            analogy: 'ROI er som karaktersnitt — viser relativ prestasjon. EVA/RI er mer som lønn etter levekostnader — viser absolutt netto verdiskaping.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Når er ROS et bedre måltall enn ROI?',
+              choices: [
+                'Alltid',
+                'I produksjonsbedrifter med mye kapital',
+                'I handelsvirksomheter eller tjenesteytende selskaper hvor kapitalmål er vanskelig',
+                'Når man vil måle bonus'
+              ],
+              correct: 2,
+              explain: 'TV2, Europris, barnehager — selskaper uten klare investerings-størrelser bruker ofte ROS.'
+            },
+            {
+              type: 'cloze',
+              prompt: 'Superprofitt-formel:',
+              text: 'Superprofitt = Driftsresultat − (___A___ × ___B___)',
+              blanks: [
+                { id: 'A', answer: 'Avkastningskrav' },
+                { id: 'B', answer: 'Kapitalbinding' }
+              ],
+              bank: ['Avkastningskrav', 'Kapitalbinding', 'Omsetning', 'ROI'],
+              explain: 'Vi trekker fra "leien på kapitalen" — det vi minst burde tjent for å forsvare investeringen.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hovedforskjellen mellom EVA og RI?',
+              choices: [
+                'Ingen forskjell',
+                'EVA bruker driftsresultat etter skatt og WACC; RI er mer generelt',
+                'EVA er bare for store selskap',
+                'RI bruker omsetning i stedet for resultat'
+              ],
+              correct: 1,
+              explain: 'EVA er en spesifikk form for RI som bruker WACC og post-tax-tall, samt markedsbaserte verdier.'
+            }
+          ]
+        },
+        {
+          id: 'l28', order: 38, title: 'Internprising',
+          source: 'Del 2B, kap. 14',
+          intro: {
+            badge: 'Internt marked',
+            heading: 'Pris mellom egne enheter',
+            body: 'Internprising styrer transaksjoner mellom enheter i samme konsern. Tre tilnærminger: <strong>Markedsbasert</strong> (alternativkostnaden ved å levere internt), <strong>Kostnadsbasert</strong> (selvkost eller ABC), og <strong>Forhandlingsbasert</strong>. Skattemessig må prisen reflektere "armlengdes avstand" — det uavhengige parter ville avtalt.',
+            analogy: 'Datterselskap A selger laks til datterselskap B. Hvilken pris? Markedet i dag? Hva det koster A? Forhandle? Hver metode har sine konsekvenser for skatt, motivasjon og kapitalfordeling.'
+          },
+          questions: [
+            {
+              type: 'match',
+              prompt: 'Match metoden med beskrivelsen:',
+              left: [
+                { id: 'm', text: 'Markedsbasert' },
+                { id: 'k', text: 'Kostnadsbasert' },
+                { id: 'f', text: 'Forhandlingsbasert' }
+              ],
+              right: [
+                { id: 'm', text: 'Pris = alternativkostnaden i et eksternt marked' },
+                { id: 'k', text: 'Pris baseres på selvkost- eller ABC-kalkyle' },
+                { id: 'f', text: 'Partene forhandler seg frem til pris' }
+              ],
+              explain: 'Markedsbasert krever at det finnes en markedspris. Kostnadsbasert er mer stabilt men kan overføre ineffektivitet.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvorfor kan selvkostbasert internpris være problematisk?',
+              choices: [
+                'Den er for lav',
+                'Ineffektivitet (ledig kapasitet) overføres til kjøper, og kan motivere til ikke å utnytte full kapasitet',
+                'Den er for vanskelig å beregne',
+                'Den krever forhandling'
+              ],
+              correct: 1,
+              explain: 'Løsning: bruk ABC-kalkyle som skiller ut ledig kapasitet, slik at kjøperen ikke betaler for selgerens uunyttede kapasitet.'
+            }
+          ]
+        },
+        {
+          id: 'l37', order: 31, title: 'Lønnskostnader & andre driftskostnader',
+          source: 'Del 2B, kap. 3–4 & 7',
+          intro: {
+            badge: 'Avviksanalyse',
+            heading: 'Volum, pris, produktivitet — for hver kostnadstype',
+            body: 'Lønnskostnader (og andre kostnader) splittes i tre avvik: <strong>Volumavvik</strong> = (Forventet volum − Volum år 1) × Pris år 1, <strong>Prisavvik</strong> = (Pris år 2 − Pris år 1) × Forventet volum, <strong>Produktivitetsavvik</strong> = (Volum år 2 − Forventet volum) × Pris år 2. <strong>Beslutningsbetingede kostnader</strong> (markedsføring) er fastsatt i budsjett — kun pris og produktivitet, ikke volum. <strong>Kapasitetskostnader</strong> (FK): volumavvik bare ved over kapasitet. <strong>Bruttofortjenesteanalyse</strong> kombinerer inntekter og varekost.',
+            analogy: 'Tenk deg du driver en pølsebod. Du brukte mer skinke enn forventet. Var det fordi du solgte flere pølser (volum)? Eller skinkeprisen steg (pris)? Eller du sløste litt (produktivitet)? Tre forskjellige forklaringer på samme totalavvik.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hvordan beregnes prisavvik for lønnskostnader?',
+              choices: [
+                '(Pris år 2 − Pris år 1) × Volum år 1',
+                '(Pris år 2 − Pris år 1) × Forventet volum',
+                'Volum × Pris',
+                'Faktisk kostnad − Budsjett'
+              ],
+              correct: 1,
+              explain: 'Vi holder volumet på "forventet" nivå for å isolere ren prisendring.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvorfor har beslutningsbetingede kostnader (f.eks. markedsføring) IKKE volumavvik?',
+              choices: [
+                'De varierer ikke med volum — de er fastsatt i budsjettet',
+                'De er for små til å analysere',
+                'De vises ikke i regnskapet',
+                'De fjernes alltid'
+              ],
+              correct: 0,
+              explain: 'Markedsføringsbudsjettet endres ikke automatisk når salget endres. Avvik kommer kun fra pris og produktivitet.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Når får kapasitetskostnader et volumavvik?',
+              choices: [
+                'Aldri',
+                'Alltid',
+                'Bare når salgsvolumet overstiger kapasiteten — da må man utvide',
+                'Bare ved prisøkning'
+              ],
+              correct: 2,
+              explain: 'Faste kapasitetskostnader endres ikke med vanlig volumvariasjon, bare ved utvidelse for å takle høyere volum.'
+            }
+          ]
+        },
+        {
+          id: 'l38', order: 39, title: 'Internprising: regler & anbefaling',
+          source: 'Del 2B, kap. 14.4–14.5',
+          intro: {
+            badge: 'Pris-grenser',
+            heading: 'Minste og høyeste internpris',
+            body: 'For lønnsom internhandel: <strong>Minste internpris</strong> = Leverandørens særkostnad + Alternativkostnad (± eksterne virkninger). <strong>Høyeste internpris</strong> = Kjøperens alternativkostnad ved eksternt kjøp. Mellom disse to grensene finnes prisrommet. <strong>Anbefalt metode</strong>: markedspris dersom mulig — men forutsetter velfungerende eksternt marked, lik særkostnad, ingen eksterne virkninger og full kapasitetsutnyttelse. Ofte mangler disse, og man havner på kostnads- eller forhandlingsbasert pris.',
+            analogy: 'Som en bytteavtale i et kollektiv: jeg leier ut sykkelen til samboeren. Jeg vil minst ha det jeg går glipp av (alternativkost), hun vil maks betale det det koster å leie en eksternt. Hvor i mellom vi lander avhenger av forhandling.'
+          },
+          questions: [
+            {
+              type: 'cloze',
+              prompt: 'Internpris-grenser:',
+              text: 'Minste internpris = ___A___ + Alternativkostnad. Høyeste internpris = Kjøperens ___B___ ved eksternt kjøp.',
+              blanks: [
+                { id: 'A', answer: 'særkostnad' },
+                { id: 'B', answer: 'alternativkostnad' }
+              ],
+              bank: ['særkostnad', 'alternativkostnad', 'markedspris', 'selvkost'],
+              explain: 'Selger må minst dekke ekstra-kostnad pluss det de mister, kjøperen vil maks betale det utenforpriset er.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilken forutsetning kreves for at markedsbasert internpris skal fungere godt?',
+              choices: [
+                'At enhetene er små',
+                'Velfungerende eksternt marked, lik særkostnad, ingen eksterne virkninger, full kapasitetsutnyttelse',
+                'At toppledelsen styrer alt',
+                'At det ikke er andre kunder'
+              ],
+              correct: 1,
+              explain: 'I praksis er disse forutsetningene sjelden alle oppfylt — derfor brukes ofte kostnads- eller forhandlingsbasert pris.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hva er hovedutfordringen ved variabel kost-prising (kun VK dekkes)?',
+              choices: [
+                'For dyrt for kjøper',
+                'Prisen kan bli for lav (særlig med høy FK), gir lite midler til innovasjon/FoU',
+                'Lovlig problem',
+                'For komplisert å regne ut'
+              ],
+              correct: 1,
+              explain: 'Løsning ofte: motta fast tilskudd fra konsernet som dekker FK og FoU.'
+            }
+          ]
+        },
+        {
+          id: 'l39', order: 36, title: 'ROI-utfordringer & sammenligning',
+          source: 'Del 2B, kap. 13 (utvidelse)',
+          intro: {
+            badge: 'Kritisk blikk',
+            heading: 'Når ROI-tall lyver',
+            body: 'To store utfordringer med ROI: <strong>Avskrivninger</strong> — lineære/degressive gir for høye avskrivninger første år → stigende ROI over tid → insentiv til <em>ikke</em> å investere. <strong>Sammenligning mellom land</strong> er vanskelig: ulike rammebetingelser (regulering, valuta, inflasjon, risiko), ulik anleggsalder, ulike regnskapsprinsipper (selv IFRS varierer i praksis). For å finne om to selskaper er like lønnsomme: regn ut differanse-investering og differanse-resultat → ny ROI hvor de er like.',
+            analogy: 'Statoil/Circle K-eksempel: kan ikke kreve samme ROI fra en gammel norsk bensinstasjon som fra en ny i USA — kostnader, marked og regulering er helt forskjellige.'
+          },
+          questions: [
+            {
+              type: 'mc',
+              prompt: 'Hvorfor gir lineære avskrivninger stigende ROI over tid?',
+              choices: [
+                'Inntektene faller',
+                'Bokført verdi (nevner) reduseres år for år, mens resultatet er relativt stabilt',
+                'Avskrivningene øker',
+                'Skatten endres'
+              ],
+              correct: 1,
+              explain: 'Når kapitalbinding krymper i nevneren, vokser ROI mekanisk — selv uten reell ytelsesforbedring.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvilken konsekvens kan dette ha for investeringsbeslutninger?',
+              choices: [
+                'Ingen konsekvens',
+                'Insentiver til å IKKE investere — nye investeringer drar ned snittet',
+                'Alle vil investere mer',
+                'ROI blir alltid 0'
+              ],
+              correct: 1,
+              explain: 'Et lønnsomt prosjekt kan ha lavere ROI enn dagens snitt — lederen avstår for å beskytte tallet.'
+            },
+            {
+              type: 'mc',
+              prompt: 'Hvorfor er ROI-sammenligning mellom land vanskelig?',
+              choices: [
+                'Tallene er hemmelige',
+                'Forskjeller i rammebetingelser, anleggsalder, regnskapsprinsipper, valuta og risiko',
+                'ROI gjelder bare i Norge',
+                'Det er for enkelt'
+              ],
+              correct: 1,
+              explain: 'Selv med IFRS er det forskjeller. Man bør sette ulike avkastningskrav per land basert på risiko og forutsetninger.'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ============================================================
+// STORAGE LAYER — robust med fallback
+// ============================================================
+
+const STATE_KEY = 'kompendio_state_v1';
+let storageMode = 'unknown'; // 'localStorage', 'memory', 'broken'
+let memoryStore = {};
+
+function detectStorage() {
+  // Test if localStorage actually works (writes AND reads back)
+  try {
+    const testKey = '__kompendio_test__';
+    localStorage.setItem(testKey, '1');
+    const got = localStorage.getItem(testKey);
+    localStorage.removeItem(testKey);
+    if (got === '1') {
+      storageMode = 'localStorage';
+      return true;
+    }
+  } catch(e) {
+    // SecurityError in private mode, etc.
+  }
+  storageMode = 'memory';
+  return false;
+}
+
+function storageGet(key) {
+  if (storageMode === 'localStorage') {
+    try { return localStorage.getItem(key); } catch(e) { return null; }
+  }
+  return memoryStore[key] || null;
+}
+function storageSet(key, value) {
+  if (storageMode === 'localStorage') {
+    try {
+      localStorage.setItem(key, value);
+      return true;
+    } catch(e) {
+      // QuotaExceeded or storage broken — fall back
+      storageMode = 'memory';
+      showStorageWarning('Ikke nok lagringsplass. Fremgang er midlertidig.');
+      memoryStore[key] = value;
+      return false;
+    }
+  }
+  // unknown or memory mode — store in memory
+  storageMode = 'memory';
+  memoryStore[key] = value;
+  return false;
+}
+function storageRemove(key) {
+  if (storageMode === 'localStorage') {
+    try { localStorage.removeItem(key); } catch(e) {}
+  }
+  delete memoryStore[key];
+}
+
+function showStorageWarning(detail) {
+  const el = document.getElementById('storageWarn');
+  const dt = document.getElementById('storageWarnDetail');
+  if (!el) return;
+  if (detail) dt.textContent = detail;
+  else if (storageMode === 'memory') {
+    dt.textContent = 'Åpne filen direkte i Safari/Chrome (ikke privat-modus).';
+  }
+  el.classList.add('show');
+}
+
+// ============================================================
+// STATE
+// ============================================================
+
+let state = {
+  xp: 0,
+  streak: 0,
+  lastActiveDate: null,
+  completedLessons: {}, // { lessonId: { score, total, hearts, completedAt } }
+  lessonProgress: {},   // { lessonId: { qIdx, hearts, correct, total } } — gjenoppta
+  version: 1
+};
+
+function loadState() {
+  const saved = storageGet(STATE_KEY);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      // Merge in saved values, keep defaults for missing keys
+      state = {
+        xp: typeof parsed.xp === 'number' ? parsed.xp : 0,
+        streak: typeof parsed.streak === 'number' ? parsed.streak : 0,
+        lastActiveDate: parsed.lastActiveDate || null,
+        completedLessons: parsed.completedLessons || {},
+        lessonProgress: parsed.lessonProgress || {},
+        version: parsed.version || 1
+      };
+    } catch(e) {
+      console.warn('Korrupt state, nullstiller', e);
+      // Don't wipe — just keep defaults
+    }
+  }
+  rolloverStreak();
+}
+
+function saveState() {
+  return storageSet(STATE_KEY, JSON.stringify(state));
+}
+
+// Streak: only counts if user completes at least one lesson on a given day.
+// If they skip a day, streak resets next time they're active.
+function rolloverStreak() {
+  if (!state.lastActiveDate) return;
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (state.lastActiveDate !== today && state.lastActiveDate !== yesterday) {
+    // Missed a day — reset (but don't clear lastActiveDate so we know they used to be active)
+    state.streak = 0;
+    saveState();
+  }
+}
+
+function markActive() {
+  const today = new Date().toDateString();
+  if (state.lastActiveDate === today) return; // already counted today
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (state.lastActiveDate === yesterday) {
+    state.streak += 1;
+  } else {
+    state.streak = 1;
+  }
+  state.lastActiveDate = today;
+  saveState();
+}
+
+function renderTopbar() {
+  document.getElementById('streakNum').textContent = state.streak;
+  document.getElementById('xpNum').textContent = state.xp;
+}
+
+// ============================================================
+// MODAL & TOAST
+// ============================================================
+
+function showModal({ title, body, actions }) {
+  const backdrop = document.getElementById('modalBackdrop');
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').textContent = body;
+  const actionsEl = document.getElementById('modalActions');
+  actionsEl.innerHTML = '';
+  actions.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'btn ' + (a.style || 'btn-primary');
+    btn.textContent = a.label;
+    btn.onclick = () => {
+      backdrop.classList.remove('show');
+      if (a.onClick) a.onClick();
+    };
+    actionsEl.appendChild(btn);
+  });
+  backdrop.classList.add('show');
+}
+
+let toastTimer = null;
+function showToast(message, kind = '') {
+  const el = document.getElementById('toast');
+  el.className = 'toast ' + kind;
+  el.textContent = message;
+  // Reflow to retrigger animation
+  void el.offsetWidth;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ============================================================
+// HOMEPAGE — RENDER PATHS
+// ============================================================
+
+function getAllLessons() {
+  // Sort all lessons globally by order field
+  return CURRICULUM.paths.flatMap(p => p.lessons).sort((a, b) => (a.order || 999) - (b.order || 999));
+}
+
+function getPathLessonsSorted(path) {
+  return [...path.lessons].sort((a, b) => (a.order || 999) - (b.order || 999));
+}
+
+function isLessonUnlocked(lessonId) {
+  const all = getAllLessons();
+  const idx = all.findIndex(l => l.id === lessonId);
+  if (idx === 0) return true;
+  const prev = all[idx - 1];
+  // Standard rule: previous must be done
+  if (state.completedLessons[prev.id]) return true;
+  // Migration rule: if user has completed ANY later lesson, keep this one unlocked too
+  // (This protects users who completed lessons before new ones were added)
+  for (let j = idx; j < all.length; j++) {
+    if (state.completedLessons[all[j].id]) return true;
+  }
+  return false;
+}
+
+function renderHomePage() {
+  const container = document.getElementById('pathContainer');
+  container.innerHTML = '';
+
+  CURRICULUM.paths.forEach((path, pIdx) => {
+    const sortedLessons = getPathLessonsSorted(path);
+    const completedInPath = sortedLessons.filter(l => state.completedLessons[l.id]).length;
+    const total = sortedLessons.length;
+
+    const section = document.createElement('div');
+    section.className = 'path-section';
+    section.innerHTML = `
+      <div class="path-header">
+        <div class="path-num">0${pIdx + 1}</div>
+        <div>
+          <div class="path-title">${path.title}</div>
+        </div>
+        <div class="path-progress">${completedInPath}/${total}</div>
+      </div>
+      <div class="section-intro">${path.intro}</div>
+      <div class="lessons" id="lessons-${path.id}"></div>
+    `;
+    container.appendChild(section);
+
+    const lessonsEl = section.querySelector('.lessons');
+    sortedLessons.forEach((lesson, lIdx) => {
+      const isDone = !!state.completedLessons[lesson.id];
+      const unlocked = isLessonUnlocked(lesson.id);
+      const all = getAllLessons();
+      const allBefore = all.slice(0, all.findIndex(l => l.id === lesson.id));
+      const isCurrent = unlocked && !isDone && allBefore.every(l => state.completedLessons[l.id]);
+
+      const node = document.createElement('div');
+      node.className = 'lesson-node';
+      let circleClass = 'locked';
+      if (isDone) circleClass = 'done';
+      else if (isCurrent) circleClass = 'current';
+      else if (unlocked) circleClass = '';
+
+      const inProgress = !isDone && hasResumableProgress(lesson.id);
+      const circleContent = isDone ? '✓' : (lIdx + 1);
+      const metaText = inProgress
+        ? `${lesson.source} · I gang ↻`
+        : lesson.source;
+      node.innerHTML = `
+        <div class="lesson-circle ${circleClass}" data-lesson-id="${lesson.id}">${circleContent}</div>
+        <div class="lesson-label">
+          <div class="name">${lesson.title}</div>
+          <div class="meta">${metaText}</div>
+        </div>
+      `;
+      lessonsEl.appendChild(node);
+
+      const circle = node.querySelector('.lesson-circle');
+      circle.addEventListener('click', () => {
+        if (circleClass === 'locked') {
+          showToast('Fullfør forrige leksjon først', 'warn');
+          return;
+        }
+        startLesson(lesson.id);
+      });
+    });
+  });
+}
+
+// ============================================================
+// LESSON PLAYER
+// ============================================================
+
+let currentLesson = null;
+let currentQIdx = 0;
+let currentAnswerData = null;
+let questionsCorrect = 0;
+let questionsTotal = 0;
+let currentHearts = 3;
+
+// Save in-lesson progress so user can resume after closing
+function saveLessonProgress() {
+  if (!currentLesson) return;
+  if (currentQIdx < 0 || currentQIdx >= currentLesson.questions.length) {
+    // Don't save intro state or completed state — let user start fresh / view home
+    clearLessonProgress(currentLesson.id);
+    return;
+  }
+  state.lessonProgress[currentLesson.id] = {
+    qIdx: currentQIdx,
+    hearts: currentHearts,
+    correct: questionsCorrect,
+    total: questionsTotal,
+    savedAt: Date.now()
+  };
+  saveState();
+}
+function clearLessonProgress(lessonId) {
+  delete state.lessonProgress[lessonId];
+  saveState();
+}
+function hasResumableProgress(lessonId) {
+  return !!state.lessonProgress[lessonId];
+}
+
+function startLesson(lessonId, options = {}) {
+  const all = getAllLessons();
+  currentLesson = all.find(l => l.id === lessonId);
+  if (!currentLesson) return;
+
+  const resume = state.lessonProgress[lessonId];
+  if (resume && !options.fresh) {
+    currentQIdx = resume.qIdx;
+    currentHearts = resume.hearts;
+    questionsCorrect = resume.correct;
+    questionsTotal = resume.total;
+  } else {
+    currentQIdx = -1; // intro screen
+    currentHearts = 3;
+    questionsCorrect = 0;
+    questionsTotal = 0;
+  }
+
+  document.getElementById('lessonScreen').classList.add('active');
+  renderHearts();
+  renderCurrentScreen();
+}
+
+function closeLesson() {
+  // Save progress automatically — no data loss
+  saveLessonProgress();
+  document.getElementById('lessonScreen').classList.remove('active');
+  hideFeedback();
+  currentLesson = null;
+  renderHomePage();
+  renderTopbar();
+}
+
+function renderHearts() {
+  const el = document.getElementById('heartsDisplay');
+  el.innerHTML = '';
+  for (let i = 0; i < 3; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart' + (i >= currentHearts ? ' lost' : '');
+    h.textContent = '❤';
+    el.appendChild(h);
+  }
+}
+
+function updateProgressBar() {
+  const total = currentLesson.questions.length + 1; // +1 for intro
+  const done = currentQIdx + 1;
+  const pct = Math.max(0, Math.min(100, (done / total) * 100));
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function renderCurrentScreen() {
+  hideFeedback();
+  updateProgressBar();
+  const body = document.getElementById('lessonBody');
+  body.innerHTML = '';
+  document.getElementById('bottomAction').style.display = 'none';
+
+  if (currentQIdx === -1) {
+    renderIntro();
+  } else if (currentQIdx >= currentLesson.questions.length) {
+    renderComplete();
+  } else {
+    renderQuestion(currentLesson.questions[currentQIdx]);
+  }
+}
+
+function renderIntro() {
+  const intro = currentLesson.intro;
+  const body = document.getElementById('lessonBody');
+  const card = document.createElement('div');
+  card.className = 'intro-card';
+  card.innerHTML = `
+    <div class="badge">${intro.badge}</div>
+    <h2>${intro.heading}</h2>
+    <div class="body">${intro.body}</div>
+    ${intro.analogy ? `<div class="analogy">${intro.analogy}</div>` : ''}
+  `;
+  body.appendChild(card);
+
+  document.getElementById('bottomAction').style.display = 'block';
+  const checkBtn = document.getElementById('checkBtn');
+  checkBtn.textContent = 'Start spørsmål';
+  checkBtn.disabled = false;
+  checkBtn.className = 'btn btn-primary';
+  checkBtn.onclick = () => {
+    currentQIdx = 0;
+    renderCurrentScreen();
+  };
+}
+
+function renderQuestion(q) {
+  const body = document.getElementById('lessonBody');
+  const tag = document.createElement('div');
+  tag.className = 'q-type-tag';
+  const tagMap = { mc: 'Velg riktig svar', cloze: 'Fyll inn ordene', match: 'Match parene' };
+  tag.textContent = `${currentQIdx + 1} av ${currentLesson.questions.length} · ${tagMap[q.type]}`;
+  body.appendChild(tag);
+
+  const prompt = document.createElement('h2');
+  prompt.className = 'q-prompt';
+  prompt.textContent = q.prompt;
+  body.appendChild(prompt);
+
+  if (q.type === 'mc') renderMC(q);
+  else if (q.type === 'cloze') renderCloze(q);
+  else if (q.type === 'match') renderMatch(q);
+}
+
+// ---------- MULTIPLE CHOICE ----------
+function renderMC(q) {
+  const body = document.getElementById('lessonBody');
+  const wrap = document.createElement('div');
+  wrap.className = 'choices';
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  let selectedIdx = null;
+
+  q.choices.forEach((choice, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.innerHTML = `<div class="choice-letter">${letters[idx]}</div><div>${choice}</div>`;
+    btn.onclick = () => {
+      if (currentAnswerData && currentAnswerData.locked) return;
+      wrap.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedIdx = idx;
+      currentAnswerData = { type: 'mc', selected: idx, locked: false };
+      document.getElementById('checkBtn').disabled = false;
+    };
+    wrap.appendChild(btn);
+  });
+  body.appendChild(wrap);
+
+  currentAnswerData = { type: 'mc', selected: null, locked: false };
+  document.getElementById('bottomAction').style.display = 'block';
+  const checkBtn = document.getElementById('checkBtn');
+  checkBtn.textContent = 'Sjekk';
+  checkBtn.disabled = true;
+  checkBtn.className = 'btn btn-primary';
+  checkBtn.onclick = () => checkMC(q, wrap);
+}
+
+function checkMC(q, wrap) {
+  if (currentAnswerData.selected === null) return;
+  currentAnswerData.locked = true;
+  const correct = currentAnswerData.selected === q.correct;
+  const choices = wrap.querySelectorAll('.choice');
+  choices.forEach((el, idx) => {
+    if (idx === q.correct) el.classList.add('correct');
+    else if (idx === currentAnswerData.selected) el.classList.add('wrong');
+    el.style.pointerEvents = 'none';
+  });
+  showFeedback(correct, q.explain);
+}
+
+// ---------- CLOZE ----------
+function renderCloze(q) {
+  const body = document.getElementById('lessonBody');
+  const container = document.createElement('div');
+  container.className = 'cloze-container';
+
+  // Build text with blanks as inline placeholders
+  const filled = {}; // blankId -> word
+  let textHTML = q.text;
+  q.blanks.forEach(b => {
+    textHTML = textHTML.replace(`___${b.id}___`,
+      `<span class="cloze-blank empty" data-blank-id="${b.id}">…</span>`);
+  });
+  container.innerHTML = textHTML;
+  body.appendChild(container);
+
+  // Bank
+  const bank = document.createElement('div');
+  bank.className = 'cloze-bank';
+  // Shuffle the bank a little but deterministic per question
+  const shuffled = [...q.bank];
+  bank.innerHTML = '';
+  shuffled.forEach(word => {
+    const pill = document.createElement('button');
+    pill.className = 'cloze-pill';
+    pill.textContent = word;
+    pill.dataset.word = word;
+    pill.onclick = () => {
+      if (currentAnswerData && currentAnswerData.locked) return;
+      // Find first empty blank
+      const emptyBlank = container.querySelector('.cloze-blank.empty');
+      if (!emptyBlank) {
+        // Replace last filled
+        const filledBlanks = container.querySelectorAll('.cloze-blank:not(.empty)');
+        if (filledBlanks.length > 0) {
+          const last = filledBlanks[filledBlanks.length - 1];
+          const oldWord = last.textContent;
+          // Restore old word to bank
+          const usedPill = bank.querySelector(`.cloze-pill.used[data-word="${oldWord}"]`);
+          if (usedPill) usedPill.classList.remove('used');
+          last.classList.add('empty');
+          last.textContent = '…';
+          delete filled[last.dataset.blankId];
+        }
+        return;
+      }
+      pill.classList.add('used');
+      emptyBlank.classList.remove('empty');
+      emptyBlank.textContent = word;
+      filled[emptyBlank.dataset.blankId] = word;
+      currentAnswerData = { type: 'cloze', filled, locked: false };
+      checkClozeReady();
+    };
+    bank.appendChild(pill);
+  });
+  body.appendChild(bank);
+
+  // Tap a filled blank to remove it
+  container.querySelectorAll('.cloze-blank').forEach(blank => {
+    blank.style.cursor = 'pointer';
+    blank.onclick = () => {
+      if (currentAnswerData && currentAnswerData.locked) return;
+      if (blank.classList.contains('empty')) return;
+      const word = blank.textContent;
+      const usedPill = bank.querySelector(`.cloze-pill.used[data-word="${word}"]`);
+      if (usedPill) usedPill.classList.remove('used');
+      blank.classList.add('empty');
+      blank.textContent = '…';
+      delete filled[blank.dataset.blankId];
+      checkClozeReady();
+    };
+  });
+
+  currentAnswerData = { type: 'cloze', filled, locked: false };
+  document.getElementById('bottomAction').style.display = 'block';
+  const checkBtn = document.getElementById('checkBtn');
+  checkBtn.textContent = 'Sjekk';
+  checkBtn.disabled = true;
+  checkBtn.className = 'btn btn-primary';
+  checkBtn.onclick = () => checkCloze(q, container);
+
+  function checkClozeReady() {
+    const allFilled = q.blanks.every(b => filled[b.id]);
+    document.getElementById('checkBtn').disabled = !allFilled;
+  }
+}
+
+function checkCloze(q, container) {
+  currentAnswerData.locked = true;
+  let allCorrect = true;
+  q.blanks.forEach(b => {
+    const blankEl = container.querySelector(`.cloze-blank[data-blank-id="${b.id}"]`);
+    const userAns = (currentAnswerData.filled[b.id] || '').trim();
+    if (userAns.toLowerCase() === b.answer.toLowerCase()) {
+      blankEl.style.background = 'var(--green-soft)';
+      blankEl.style.color = 'var(--green)';
+      blankEl.style.borderBottomColor = 'var(--green)';
+    } else {
+      blankEl.style.background = 'var(--red-soft)';
+      blankEl.style.color = 'var(--red)';
+      blankEl.style.borderBottomColor = 'var(--red)';
+      blankEl.textContent = b.answer;
+      allCorrect = false;
+    }
+  });
+  showFeedback(allCorrect, q.explain);
+}
+
+// ---------- MATCH ----------
+function renderMatch(q) {
+  const body = document.getElementById('lessonBody');
+  const wrap = document.createElement('div');
+  wrap.className = 'match-container';
+
+  const leftCol = document.createElement('div');
+  leftCol.className = 'match-col';
+  leftCol.innerHTML = '<h4>Begrep</h4>';
+  const rightCol = document.createElement('div');
+  rightCol.className = 'match-col';
+  rightCol.innerHTML = '<h4>Beskrivelse</h4>';
+
+  // Shuffle right side
+  const rightShuffled = [...q.right].sort(() => Math.random() - 0.5);
+  // (Left stays as-is for predictability)
+
+  let selectedSide = null;
+  let selectedId = null;
+  let matched = {};
+  const totalPairs = q.left.length;
+
+  q.left.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.side = 'left';
+    el.dataset.id = item.id;
+    el.textContent = item.text;
+    el.onclick = () => handleMatchClick(el, 'left', item.id);
+    leftCol.appendChild(el);
+  });
+  rightShuffled.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.side = 'right';
+    el.dataset.id = item.id;
+    el.textContent = item.text;
+    el.onclick = () => handleMatchClick(el, 'right', item.id);
+    rightCol.appendChild(el);
+  });
+
+  wrap.appendChild(leftCol);
+  wrap.appendChild(rightCol);
+  body.appendChild(wrap);
+
+  function handleMatchClick(el, side, id) {
+    if (currentAnswerData && currentAnswerData.locked) return;
+    if (el.classList.contains('matched')) return;
+
+    if (selectedSide === null) {
+      el.classList.add('selected');
+      selectedSide = side;
+      selectedId = id;
+      return;
+    }
+    if (selectedSide === side) {
+      // Deselect previous and select new
+      wrap.querySelectorAll('.match-item.selected').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedId = id;
+      return;
+    }
+    // Different sides — check match
+    if (id === selectedId) {
+      // Correct
+      const otherSide = wrap.querySelector(`.match-item.selected`);
+      otherSide.classList.remove('selected');
+      otherSide.classList.add('matched');
+      el.classList.add('matched');
+      matched[id] = true;
+      selectedSide = null; selectedId = null;
+      if (Object.keys(matched).length === totalPairs) {
+        currentAnswerData = { type: 'match', allCorrect: true, locked: true };
+        showFeedback(true, q.explain);
+      }
+    } else {
+      // Wrong — flash but don't lose hearts (matching is exploratory)
+      const prev = wrap.querySelector(`.match-item.selected`);
+      el.classList.add('wrong-flash');
+      prev.classList.add('wrong-flash');
+      setTimeout(() => {
+        el.classList.remove('wrong-flash');
+        prev.classList.remove('wrong-flash', 'selected');
+      }, 400);
+      selectedSide = null; selectedId = null;
+    }
+  }
+
+  currentAnswerData = { type: 'match', allCorrect: false, locked: false };
+}
+
+function loseHeart() {
+  currentHearts = Math.max(0, currentHearts - 1);
+  renderHearts();
+  if (currentHearts === 0) {
+    setTimeout(() => {
+      hideFeedback();
+      showModal({
+        title: 'Tom for liv 💔',
+        body: 'Du brukte opp alle livene dine. Vil du prøve leksjonen på nytt?',
+        actions: [
+          {
+            label: 'Tilbake',
+            style: 'btn-secondary',
+            onClick: () => {
+              clearLessonProgress(currentLesson.id);
+              closeLesson();
+            }
+          },
+          {
+            label: 'Prøv igjen',
+            style: 'btn-primary',
+            onClick: () => {
+              const id = currentLesson.id;
+              clearLessonProgress(id);
+              startLesson(id, { fresh: true });
+            }
+          }
+        ]
+      });
+    }, 600);
+  }
+}
+
+// ---------- FEEDBACK ----------
+function showFeedback(correct, explain) {
+  questionsTotal++;
+  if (correct) questionsCorrect++;
+  else loseHeart();
+
+  const fb = document.getElementById('feedback');
+  fb.classList.remove('correct', 'wrong');
+  fb.classList.add(correct ? 'correct' : 'wrong');
+  document.getElementById('feedbackTitle').textContent = correct ? 'Riktig!' : 'Ikke helt';
+  document.getElementById('feedbackExplain').textContent = explain || '';
+  document.getElementById('feedbackSource').textContent = `Kilde: ${currentLesson.source}`;
+  const cont = document.getElementById('continueBtn');
+  cont.className = 'btn ' + (correct ? 'btn-correct' : 'btn-wrong');
+  cont.textContent = 'Fortsett';
+  cont.onclick = () => {
+    currentQIdx++;
+    renderCurrentScreen();
+  };
+  fb.classList.add('show');
+  document.getElementById('bottomAction').style.display = 'none';
+}
+function hideFeedback() {
+  document.getElementById('feedback').classList.remove('show');
+}
+
+// ---------- COMPLETE SCREEN ----------
+function renderComplete() {
+  const body = document.getElementById('lessonBody');
+  const xpEarned = Math.round((questionsCorrect / questionsTotal) * 20);
+  const heartsLeft = currentHearts;
+  const isFirstCompletion = !state.completedLessons[currentLesson.id];
+
+  // Save completion (overwrites earlier — keeps latest score)
+  state.completedLessons[currentLesson.id] = {
+    score: questionsCorrect,
+    total: questionsTotal,
+    hearts: heartsLeft,
+    completedAt: Date.now()
+  };
+  // Only award XP first time (or partial on improvement?). Keep it simple: full XP each time.
+  if (isFirstCompletion) state.xp += xpEarned;
+  markActive();
+  // Clear in-progress save since lesson is done
+  delete state.lessonProgress[currentLesson.id];
+  const saved = saveState();
+  if (!saved && storageMode === 'memory') {
+    showToast('Fremgang lagret midlertidig (ikke vedvarende)', 'warn');
+  }
+
+  body.innerHTML = `
+    <div class="complete-screen">
+      <div class="complete-emoji">${heartsLeft === 3 ? '🏆' : heartsLeft >= 1 ? '✨' : '💪'}</div>
+      <h2 class="complete-title">Leksjon fullført!</h2>
+      <p class="complete-sub">${currentLesson.title}</p>
+      <div class="complete-stats">
+        <div class="complete-stat">
+          <div class="num">+${xpEarned}</div>
+          <div class="label">XP</div>
+        </div>
+        <div class="complete-stat">
+          <div class="num">${questionsCorrect}/${questionsTotal}</div>
+          <div class="label">Riktig</div>
+        </div>
+        <div class="complete-stat">
+          <div class="num">${heartsLeft}</div>
+          <div class="label">Liv</div>
+        </div>
+      </div>
+      <div class="summary-points">
+        <h3>Hovedpoeng å huske</h3>
+        <ul>
+          ${getSummaryPoints(currentLesson).map(p => `<li>${p}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `;
+  document.getElementById('bottomAction').style.display = 'block';
+  const btn = document.getElementById('checkBtn');
+  btn.textContent = 'Tilbake til oversikt';
+  btn.disabled = false;
+  btn.className = 'btn btn-primary';
+  btn.onclick = () => closeLesson();
+
+  // Update progress to full
+  document.getElementById('progressFill').style.width = '100%';
+}
+
+function getSummaryPoints(lesson) {
+  // Auto-extract from intro body — strip HTML, take 1-2 sentences
+  const body = lesson.intro.body.replace(/<[^>]+>/g, '');
+  const sentences = body.split(/(?<=[.!?])\s+/).filter(s => s.length > 20);
+  return sentences.slice(0, 3);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.getElementById('closeBtn').addEventListener('click', () => {
+  // Mid-question with progress? Show pause modal. Otherwise just close.
+  if (currentQIdx >= 0 && currentQIdx < currentLesson.questions.length && questionsTotal > 0) {
+    showModal({
+      title: 'Pause leksjonen?',
+      body: 'Fremgangen din lagres, og du kan fortsette der du slapp neste gang.',
+      actions: [
+        { label: 'Fortsett', style: 'btn-secondary', onClick: () => {} },
+        { label: 'Pause', style: 'btn-primary', onClick: () => {
+          closeLesson();
+          showToast('Pauset — du kan fortsette senere', 'info');
+        }}
+      ]
+    });
+  } else {
+    // No progress to lose
+    if (currentLesson) clearLessonProgress(currentLesson.id);
+    closeLesson();
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  showModal({
+    title: 'Nullstille all fremgang?',
+    body: 'All XP, streak og fullførte leksjoner slettes. Dette kan ikke angres.',
+    actions: [
+      { label: 'Avbryt', style: 'btn-secondary', onClick: () => {} },
+      { label: 'Slett alt', style: 'btn-danger', onClick: () => {
+        storageRemove(STATE_KEY);
+        location.reload();
+      }}
+    ]
+  });
+});
+
+// Initialize
+detectStorage();
+if (storageMode !== 'localStorage') {
+  showStorageWarning();
+}
+loadState();
+renderTopbar();
+renderHomePage();
+
+// Show welcome toast on first ever load
+if (Object.keys(state.completedLessons).length === 0 && state.xp === 0) {
+  setTimeout(() => {
+    showToast('Velkommen! Trykk på første leksjon for å begynne.', 'info');
+  }, 600);
+}
+
+// Auto-save lesson progress on page hide (mobile users may swipe away)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && currentLesson) {
+    saveLessonProgress();
+  }
+});
+window.addEventListener('pagehide', () => {
+  if (currentLesson) saveLessonProgress();
+});
+</script>
+</body>
+</html>
